@@ -73,7 +73,7 @@ function priceCart_(cat, countryCode, items, code) {
     if (v.status !== 'live') throw new Error(d.name + ' in ' + v.colour + ' is coming soon and cannot be ordered yet.');
     if (d.drop === 2 && now < Date.parse(cat.drop2)) throw new Error(d.name + ' releases with Drop 02.');
     const size = String(it.s), q = Math.floor(Number(it.q));
-    if (!v.pf || !v.pf.variants || !v.pf.variants[size]) throw new Error(d.name + ' in ' + v.colour + ' is not available in size ' + size + '.');
+    if (!v.pf || !pfVariantId_(v, size)) throw new Error(d.name + ' in ' + v.colour + ' is not available in size ' + size + '.');
     if (!(q >= 1 && q <= 10)) throw new Error('Quantity must be between 1 and 10.');
     const unit = localPrice_(cat, c, d.price), unitDisc = useCode ? r2_(unit * 0.10) : 0;
     return { d: d, v: v, size: size, q: q, unit: unit, unitDisc: unitDisc };
@@ -113,6 +113,12 @@ function form_(o, prefix, out) {
   return out.join('&');
 }
 const minor_ = function (n) { return Math.round(n * 100); };
+/** Printful variant id for a colourway + size: from the catalog, else looked up in Printful's public catalog. */
+function pfVariantId_(v, size) {
+  if (v.pf.variants && v.pf.variants[size]) return v.pf.variants[size];
+  const hit = findVariant_(v.pf.product, v.pf.colour, size);
+  return hit ? hit.id : null;
+}
 
 function shopCheckout_(body) {
   if (!stripeKey_()) return { error: 'not_live' };
@@ -211,7 +217,7 @@ function fulfil_(s) {
       lines.push(row.quantity + ' × ' + (row.description || (d && d.name)) + ' — ' + money_(row.amount_total, s.currency));
       if (!v || !v.pf) return;
       pfItems.push({
-        variant_id: v.pf.variants[md.s], quantity: row.quantity,
+        variant_id: pfVariantId_(v, md.s), quantity: row.quantity,
         retail_price: (row.amount_total / row.quantity / 100).toFixed(2),
         name: 'FAGA ' + d.name + ' · ' + v.colour + ' · ' + md.s,
         files: v.pf.files.map(function (f) { return { type: f.type, url: cat.base + f.url }; }),
@@ -265,7 +271,7 @@ function shopEstimate_(body) {
   (body.items || []).slice(0, 30).forEach(function (it) {
     const d = cat.designs.filter(function (x) { return x.id === it.d; })[0], v = d && d.variants.filter(function (x) { return x.pid === it.v; })[0];
     if (!v || !v.pf) return;
-    items.push({ variant_id: v.pf.variants[it.s], quantity: 1, files: v.pf.files.map(function (f) { return { type: f.type, url: cat.base + f.url }; }), options: v.pf.options || [] });
+    items.push({ variant_id: pfVariantId_(v, it.s), quantity: 1, files: v.pf.files.map(function (f) { return { type: f.type, url: cat.base + f.url }; }), options: v.pf.options || [] });
   });
   return pf_('post', '/orders/estimate-costs', { recipient: { address1: 'Hazait 74', city: 'Zerufa', country_code: 'IL', zip: '3085000' }, items: items });
 }
