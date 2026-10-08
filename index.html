@@ -1,0 +1,679 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="FAGA: heavyweight hoodies, crews, faded tees and corduroy caps. Drop 01.">
+<title>FAGA Shop</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Hanken+Grotesk:wght@400;500;600&family=Silkscreen&display=swap" rel="stylesheet">
+<style>
+/* Layout: an editorial streetwear storefront. Full-bleed campaign photography leads; products sit on a warm concrete ground in a tight grid with care-label details. */
+:root{
+  --bg:#E6E2DA;          /* concrete, warm */
+  --paper:#EFECE6;       /* card / photo ground */
+  --ink:#1E1D1A;
+  --muted:#6A665E;
+  --line:#CFC9BE;
+  --accent:#7A5A3C;      /* vintage brown */
+  --pine:#4F6F5E;
+  --on-photo:#F2EEE6;
+  --display:'Archivo','Arial Black','Helvetica Neue',Arial,sans-serif;
+  --body:'Hanken Grotesk','Helvetica Neue',Arial,sans-serif;
+  --pixel:'Silkscreen','Courier New',monospace;
+  --gut:clamp(16px,3.2vw,44px);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#161614;--paper:#1F1E1B;--ink:#ECE7DD;--muted:#A39E93;--line:#34322D;--accent:#C79B6D;--pine:#93B6A1;--on-photo:#F2EEE6;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#161614;--paper:#1F1E1B;--ink:#ECE7DD;--muted:#A39E93;--line:#34322D;--accent:#C79B6D;--pine:#93B6A1;--on-photo:#F2EEE6;color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font:15px/1.55 var(--body);margin:0}
+a{color:inherit}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+img{display:block;max-width:100%}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.wrap{padding-inline:var(--gut);max-width:1600px;margin-inline:auto}
+.pix{font-family:var(--pixel);font-size:11px;letter-spacing:.08em;text-transform:uppercase}
+.mark{display:block;background:currentColor;-webkit-mask:var(--m) center/contain no-repeat;mask:var(--m) center/contain no-repeat}
+.logo{--m:url(data:image/png;base64,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);width:84px;aspect-ratio:829/262}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* announcement + header */
+.announce{background:var(--ink);color:var(--bg);text-align:center;padding:8px 16px}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--bg);border-bottom:1px solid var(--line)}
+.bar{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:16px;padding-block:14px}
+.nav{display:flex;gap:clamp(12px,1.8vw,26px);flex-wrap:wrap}
+.nav a{text-decoration:none;font-weight:500;font-size:14px}
+.nav a:hover,.nav a[aria-current="true"]{text-decoration:underline;text-underline-offset:5px}
+.tools{display:flex;justify-content:flex-end;gap:18px;align-items:center;font-size:14px;font-weight:500}
+.bag{display:inline-flex;gap:8px;align-items:center}
+.count{min-width:22px;height:22px;border-radius:11px;background:var(--ink);color:var(--bg);display:inline-grid;place-items:center;font-size:12px;font-variant-numeric:tabular-nums;padding:0 6px}
+.menu-btn{display:none}
+@media (max-width:860px){.nav{display:none}.menu-btn{display:inline-block}.bar{grid-template-columns:auto 1fr auto}.bar>a{justify-self:center}}
+.mobile-nav{display:none;border-top:1px solid var(--line);padding:10px var(--gut) 16px;flex-direction:column;gap:12px}
+.mobile-nav.open{display:flex}
+
+/* hero */
+.hero{position:relative;color:var(--on-photo);background:#2a2620}
+.hero img{width:100%;height:min(78vh,860px);min-height:420px;object-fit:cover;object-position:50% 60%}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 45%,rgba(0,0,0,.55))}
+.hero-copy{position:absolute;inset:auto 0 0 0;z-index:1;display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;padding-block:clamp(24px,4vw,56px)}
+.hero h1{font-family:var(--display);font-stretch:125%;font-weight:900;font-size:clamp(44px,8vw,128px);line-height:.86;letter-spacing:-.02em;margin:0;text-transform:uppercase}
+.hero p{margin:10px 0 0;max-width:38ch;font-size:16px;opacity:.92}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:15px 26px;font-weight:600;text-decoration:none;border:1.5px solid currentColor;border-radius:0;letter-spacing:.01em}
+.btn.solid{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.btn.solid:hover{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn.light{background:var(--on-photo);color:#1E1D1A;border-color:var(--on-photo)}
+.btn.light:hover{background:transparent;color:var(--on-photo)}
+
+/* section heads */
+section{padding-block:clamp(48px,7vw,96px)}
+.head{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;margin-bottom:26px}
+h2{font-family:var(--display);font-stretch:112%;font-weight:850;font-size:clamp(28px,3.6vw,48px);line-height:.95;letter-spacing:-.015em;margin:0;text-transform:uppercase;text-wrap:balance}
+.eyebrow{display:block;color:var(--accent);margin-bottom:10px}
+
+/* category tiles */
+.cats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(8px,1vw,14px)}
+.cat{position:relative;overflow:hidden;color:var(--on-photo);text-decoration:none;background:#2a2620}
+.cat img{width:100%;aspect-ratio:4/5;object-fit:cover;transition:transform .8s ease}
+.cat:hover img{transform:scale(1.04)}
+.cat span{position:absolute;left:16px;bottom:14px;z-index:1;font-family:var(--display);font-stretch:112%;font-weight:800;font-size:clamp(20px,2vw,28px);text-transform:uppercase}
+.cat::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,rgba(0,0,0,.5))}
+@media (max-width:700px){.cats{grid-template-columns:1fr 1fr}.cats .cat:last-child{grid-column:1/-1}.cats .cat:last-child img{aspect-ratio:16/10}}
+
+/* filters + grid */
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{border:1px solid var(--line);padding:8px 14px;font-size:13px;font-weight:500}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(18px,2vw,28px) clamp(10px,1.2vw,16px)}
+@media (max-width:1100px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:760px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.card{display:flex;flex-direction:column;gap:10px;text-decoration:none;min-width:0}
+.ph{position:relative;background:var(--paper);aspect-ratio:4/5;overflow:hidden}
+.ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:opacity .45s ease}
+.ph img.alt{opacity:0}
+.card:hover .ph img.alt{opacity:1}
+.tag{position:absolute;left:10px;top:10px;z-index:1;background:var(--bg);padding:4px 7px}
+.meta{display:grid;gap:2px}
+.meta .row{display:flex;justify-content:space-between;gap:10px;align-items:baseline}
+.meta b{font-weight:600;font-size:14px}
+.meta .price{font-variant-numeric:tabular-nums;font-weight:500}
+.meta .col{display:flex;align-items:center;gap:7px;color:var(--muted);font-size:13px}
+.sw{width:11px;height:11px;border-radius:50%;border:1px solid rgba(0,0,0,.18);flex:none}
+
+/* editorial split */
+.split{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:0;background:var(--paper)}
+.split img{width:100%;height:100%;object-fit:cover;min-height:420px}
+.split .txt{padding:clamp(28px,5vw,80px);display:flex;flex-direction:column;justify-content:center;gap:18px}
+.split p{margin:0;max-width:46ch;color:var(--muted);font-size:16px}
+@media (max-width:820px){.split{grid-template-columns:1fr}.split img{min-height:0;aspect-ratio:4/5}}
+
+/* lookbook strip */
+.strip{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(260px,32%);gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:8px}
+.strip figure{margin:0;scroll-snap-align:start;display:grid;gap:8px}
+.strip img{width:100%;aspect-ratio:4/5;object-fit:cover;background:var(--paper)}
+.strip figcaption{display:flex;justify-content:space-between;font-size:13px;color:var(--muted)}
+.strip figcaption b{color:var(--ink);font-weight:600}
+@media (max-width:700px){.strip{grid-auto-columns:78%}}
+
+/* PDP */
+.pdp{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:clamp(20px,4vw,64px);padding-block:clamp(20px,3vw,40px) clamp(48px,6vw,80px)}
+.gallery{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.gallery img{width:100%;aspect-ratio:4/5;object-fit:cover;background:var(--paper)}
+.gallery img.wide{grid-column:1/-1;aspect-ratio:3/2}
+.info{position:sticky;top:96px;align-self:start;display:grid;gap:18px}
+.crumbs{font-size:13px;color:var(--muted)}
+.crumbs a{text-decoration:none}
+.crumbs a:hover{text-decoration:underline}
+.info h1{font-family:var(--display);font-stretch:112%;font-weight:850;font-size:clamp(28px,3vw,40px);line-height:1;margin:0;text-transform:uppercase}
+.info .price{font-size:20px;font-variant-numeric:tabular-nums}
+.colour{display:flex;align-items:center;gap:10px;font-size:14px}
+.colour .sw{width:22px;height:22px}
+.sizes{display:grid;grid-template-columns:repeat(auto-fill,minmax(56px,1fr));gap:6px}
+.size{border:1px solid var(--line);padding:11px 0;text-align:center;font-weight:500;font-size:14px}
+.size[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.size:hover{border-color:var(--ink)}
+.add{width:100%;padding:17px}
+.msg{min-height:20px;font-size:13px;color:var(--accent);margin:-6px 0 0}
+details{border-top:1px solid var(--line);padding:14px 0}
+details:last-of-type{border-bottom:1px solid var(--line)}
+summary{cursor:pointer;font-weight:600;list-style:none;display:flex;justify-content:space-between}
+summary::after{content:"+";font-weight:400}
+details[open] summary::after{content:"–"}
+details ul{margin:10px 0 0;padding-left:18px;color:var(--muted)}
+details p{margin:10px 0 0;color:var(--muted)}
+@media (max-width:900px){.pdp{grid-template-columns:1fr}.info{position:static}.gallery{grid-auto-flow:column;grid-auto-columns:85%;grid-template-columns:none;overflow-x:auto;scroll-snap-type:x mandatory}.gallery img{scroll-snap-align:start}.gallery img.wide{grid-column:auto;aspect-ratio:4/5}}
+
+/* bag drawer */
+.scrim{position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:40}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(420px,100%);background:var(--bg);z-index:41;display:flex;flex-direction:column;border-left:1px solid var(--line);padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+.drawer .top{display:flex;justify-content:space-between;align-items:center;padding:18px 20px;border-bottom:1px solid var(--line)}
+.lines{flex:1;overflow:auto;padding:8px 20px;display:grid;align-content:start;gap:4px}
+.line{display:grid;grid-template-columns:76px 1fr auto;gap:14px;padding:12px 0;border-bottom:1px solid var(--line);align-items:start}
+.line img{width:76px;aspect-ratio:4/5;object-fit:cover;background:var(--paper)}
+.line b{font-weight:600;font-size:14px;display:block}
+.line small{color:var(--muted);display:block}
+.qty{display:inline-flex;align-items:center;border:1px solid var(--line);margin-top:8px}
+.qty button{width:28px;height:28px}
+.qty span{min-width:24px;text-align:center;font-variant-numeric:tabular-nums}
+.rm{font-size:12px;text-decoration:underline;color:var(--muted)}
+.drawer .bottom{padding:18px 20px;border-top:1px solid var(--line);display:grid;gap:12px}
+.sub{display:flex;justify-content:space-between;font-weight:600;font-variant-numeric:tabular-nums}
+.empty{color:var(--muted);padding:30px 0}
+
+footer{background:var(--ink);color:var(--bg);padding-block:56px 40px;margin-top:40px}
+.foot{display:grid;grid-template-columns:minmax(0,1.4fr) repeat(3,minmax(0,1fr));gap:32px}
+.foot .big{--m:url(data:image/png;base64,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);width:min(100%,380px);aspect-ratio:829/262}
+.foot h4{margin:0 0 10px;font-size:13px;font-weight:600;opacity:.7}
+.foot ul{list-style:none;margin:0;padding:0;display:grid;gap:6px;font-size:14px}
+.foot a{text-decoration:none}
+.foot a:hover{text-decoration:underline}
+.news{display:flex;gap:0;margin-top:18px;max-width:420px}
+.news input{flex:1;min-width:0;background:transparent;border:1px solid rgba(255,255,255,.35);color:var(--bg);padding:12px;font:inherit}
+.news button{background:var(--bg);color:var(--ink);padding:0 18px;font-weight:600}
+.legal{margin-top:40px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:12px;opacity:.65}
+@media (max-width:820px){.foot{grid-template-columns:1fr 1fr}.foot>div:first-child{grid-column:1/-1}}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:12px 18px;z-index:50;font-size:14px}
+
+/* v4: grouped colourways, drops, localized prices with VAT/duties, size guide, lookbook */
+select{font:inherit;color:inherit;background:transparent;border:1px solid var(--line);padding:6px 8px}
+.tools select{border:0;padding:4px 2px;font-size:13px;font-weight:500;cursor:pointer;max-width:150px}
+@media (max-width:860px){.tools{gap:8px}.tools select{max-width:78px;font-size:12px}}
+.hero3{background:var(--paper);border-bottom:1px solid var(--line)}
+.hero3 .in{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.6fr);gap:clamp(20px,3vw,48px);align-items:end;padding-block:clamp(28px,4vw,56px)}
+.hero3 h1{font-family:var(--display);font-stretch:125%;font-weight:900;font-size:clamp(44px,7vw,112px);line-height:.86;letter-spacing:-.02em;margin:10px 0 0;text-transform:uppercase}
+.hero3 p{margin:16px 0 24px;max-width:38ch;color:var(--muted);font-size:16px}
+.hero3 .shots{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.hero3 .shots img{width:100%;aspect-ratio:4/5;object-fit:cover}
+.hero3 .shots a:nth-child(2){transform:translateY(-28px)}
+@media (max-width:860px){.hero3 .in{grid-template-columns:1fr}.hero3 .shots a:nth-child(2){transform:none}}
+.btns{display:flex;gap:10px;flex-wrap:wrap}
+/* drop 02 teaser */
+.drop2{background:var(--ink);color:var(--bg)}
+.drop2 .in{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:clamp(20px,4vw,64px);align-items:center;padding-block:clamp(40px,6vw,80px)}
+.drop2 h2{color:var(--bg)}
+.drop2 p{color:rgba(255,255,255,.7);max-width:44ch}
+.cd{display:flex;gap:10px;margin:20px 0}
+.cd div{border:1px solid rgba(255,255,255,.25);padding:10px 12px;min-width:68px;text-align:center}
+.cd b{display:block;font-family:var(--display);font-size:30px;font-variant-numeric:tabular-nums;line-height:1}
+.cd span{font-family:var(--pixel);font-size:10px;letter-spacing:.08em;opacity:.7}
+.drop2 .thumbs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+.drop2 .thumbs img{width:100%;aspect-ratio:4/5;object-fit:cover;filter:saturate(.85)}
+.signup{display:flex;max-width:420px}
+.signup input{flex:1;min-width:0;background:transparent;border:1px solid currentColor;color:inherit;padding:12px;font:inherit}
+.signup button{background:var(--ink);color:var(--bg);padding:0 18px;font-weight:600;border:1px solid var(--ink)}
+.drop2 .signup button{background:var(--bg);color:var(--ink);border-color:var(--bg)}
+@media (max-width:820px){.drop2 .in{grid-template-columns:1fr}}
+/* collections */
+.cols{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(10px,1.2vw,16px)}
+.coll{display:grid;grid-template-rows:auto 1fr;text-decoration:none;background:var(--paper);border:1px solid var(--line)}
+.coll img{width:100%;aspect-ratio:4/5;object-fit:cover}
+.coll .t{padding:16px 18px 20px;display:grid;gap:8px;align-content:start}
+.coll b{font-family:var(--display);font-stretch:112%;font-weight:850;font-size:clamp(22px,2.2vw,30px);text-transform:uppercase;line-height:1}
+.coll p{margin:0;color:var(--muted);font-size:14px}
+@media (max-width:820px){.cols{grid-template-columns:1fr}.coll{grid-template-columns:40% 1fr;grid-template-rows:none}.coll img{height:100%}}
+/* toolbar */
+.toolbar{display:grid;gap:12px}
+.chips .sep{width:1px;background:var(--line);margin:0 6px}
+.row2{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.szf{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.szf .chip{padding:6px 10px;font-size:12px}
+.sortsel{font-size:13px}
+/* cards */
+.ph .badges{position:absolute;left:10px;top:10px;z-index:2;display:flex;gap:6px;flex-wrap:wrap}
+.badge{background:var(--bg);color:var(--ink);padding:4px 7px;font-family:var(--pixel);font-size:10px;letter-spacing:.06em;text-transform:uppercase}
+.badge.dark{background:var(--ink);color:var(--bg)}
+.badge.warn{background:#B4522F;color:#fff}
+.qa{position:absolute;left:8px;right:8px;bottom:8px;z-index:2;background:var(--bg);padding:8px;display:grid;gap:6px;opacity:0;transform:translateY(6px);transition:.25s}
+.card:hover .qa,.card:focus-within .qa{opacity:1;transform:none}
+.qa small{font-size:11px;color:var(--muted)}
+.qa .s{display:flex;gap:4px;flex-wrap:wrap}
+.qa button{border:1px solid var(--line);padding:5px 7px;font-size:12px;min-width:34px}
+.qa button:hover:not([disabled]){background:var(--ink);color:var(--bg)}
+.qa button[disabled]{opacity:.35;text-decoration:line-through;cursor:not-allowed}
+@media (hover:none){.qa{display:none}}
+.sws{display:flex;gap:5px;align-items:center;flex-wrap:wrap}
+.swb{width:16px;height:16px;border-radius:50%;border:1px solid rgba(0,0,0,.2);padding:0;outline-offset:2px}
+.swb[aria-pressed="true"]{outline:1.5px solid var(--ink)}
+.meta .sub{display:flex;justify-content:space-between;gap:8px;color:var(--muted);font-size:13px}
+/* pdp */
+.gallery{align-items:start}
+.gallery figure{margin:0;position:relative;align-self:start;line-height:0}
+.gallery figure img{display:block}
+.gallery figcaption{line-height:1.3;position:absolute;left:10px;bottom:10px;background:rgba(0,0,0,.55);color:#fff;font-size:12px;padding:4px 8px}
+.pswatch{display:flex;gap:10px;flex-wrap:wrap}
+.pswatch a{display:grid;gap:4px;text-decoration:none;font-size:12px;color:var(--muted);width:66px}
+.pswatch img{width:66px;aspect-ratio:4/5;object-fit:cover;border:1px solid transparent}
+.pswatch a[aria-current="true"] img{border-color:var(--ink)}
+.pswatch a[aria-current="true"]{color:var(--ink)}
+.size small{display:block;font-size:10px;color:#B4522F;line-height:1}
+.size[disabled]{opacity:.4;text-decoration:line-through;cursor:not-allowed}
+.linkbtn{text-decoration:underline;text-underline-offset:3px;font-size:13px}
+.deliv{border:1px solid var(--line);padding:14px 16px;display:grid;gap:6px;font-size:14px}
+.deliv b{font-weight:600}
+.deliv .muted{color:var(--muted);font-size:13px}
+.pay{display:flex;gap:6px;flex-wrap:wrap;margin-top:4px}
+.pay span{border:1px solid var(--line);padding:3px 7px;font-size:11px;font-weight:600;letter-spacing:.02em}
+.facts{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;font-size:14px;margin:10px 0 0;color:var(--muted)}
+.facts dt{color:var(--ink);font-weight:600}
+.facts dd{margin:0}
+/* modal */
+.modal{position:fixed;inset:0;z-index:60;display:grid;place-items:center;padding:16px}
+.modal .bg{position:absolute;inset:0;background:rgba(0,0,0,.45)}
+.modal .box{position:relative;background:var(--bg);max-width:560px;width:100%;max-height:88vh;overflow:auto;padding:24px;display:grid;gap:14px}
+.modal h3{font-family:var(--display);font-stretch:112%;font-weight:850;font-size:26px;text-transform:uppercase;margin:0}
+.modal .x{position:absolute;right:14px;top:12px;font-size:14px}
+table.t{width:100%;border-collapse:collapse;font-size:14px;font-variant-numeric:tabular-nums}
+table.t th,table.t td{border-bottom:1px solid var(--line);padding:8px 6px;text-align:left}
+table.t th{font-weight:600}
+.tabs{display:flex;gap:6px}
+.welcome .box{max-width:460px;text-align:left}
+.welcome .big{font-family:var(--display);font-stretch:125%;font-weight:900;font-size:56px;line-height:.9}
+.code{font-family:var(--pixel);font-size:16px;border:1px dashed var(--ink);padding:8px 12px;display:inline-block}
+/* bag extras */
+.sumrow{display:flex;justify-content:space-between;font-size:14px;font-variant-numeric:tabular-nums}
+.sumrow.muted{color:var(--muted);font-size:13px}
+.codeform{display:flex;gap:6px}
+.codeform input{flex:1;min-width:0;border:1px solid var(--line);background:transparent;color:inherit;padding:8px;font:inherit}
+.codeform button{border:1px solid var(--ink);padding:0 12px;font-size:13px;font-weight:600}
+.freebar{height:4px;background:var(--line)}
+.freebar i{display:block;height:100%;background:var(--ink)}
+/* lookbook */
+.lb{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:10px}
+.lb figure{margin:0;display:grid;gap:8px;grid-column:span 4}
+.lb figure.w{grid-column:span 8}
+.lb figure.h{grid-column:span 6}
+.lb img{width:100%;aspect-ratio:4/5;object-fit:cover}
+.lb figure.w img{aspect-ratio:16/10}
+.lb figcaption{display:flex;justify-content:space-between;font-size:13px;color:var(--muted);gap:10px}
+.lb figcaption a{color:var(--ink);font-weight:600}
+@media (max-width:760px){.lb figure,.lb figure.w,.lb figure.h{grid-column:span 12}.lb figure.w img{aspect-ratio:4/5}}
+.prose{max-width:760px}
+.prose p{color:var(--muted)}
+</style>
+
+<div class="announce pix" id="announce"></div>
+<header>
+  <div class="wrap bar">
+    <nav class="nav" aria-label="Main">
+      <a href="#shop" data-cat="all">Shop all</a>
+      <a href="#shop" data-cat="hoodies">Hoodies</a>
+      <a href="#shop" data-cat="crewnecks">Crewnecks</a>
+      <a href="#shop" data-cat="tees">Tees</a>
+      <a href="#shop" data-cat="long-sleeves">Long sleeves</a>
+      <a href="#shop" data-cat="caps">Caps</a>
+      <a href="#lookbook">Lookbook</a>
+    </nav>
+    <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="mnav">Menu</button>
+    <a href="#home" aria-label="FAGA home"><span class="mark logo"></span></a>
+    <div class="tools">
+      <label class="pix" for="country" style="position:absolute;left:-9999px">Country</label>
+      <select id="country" aria-label="Country and currency"></select>
+      <button class="bag" id="bagBtn" aria-label="Open bag">Bag <span class="count" id="count">0</span></button>
+    </div>
+  </div>
+  <div class="mobile-nav" id="mnav">
+    <a href="#shop" data-cat="all">Shop all</a><a href="#shop" data-cat="hoodies">Hoodies</a><a href="#shop" data-cat="crewnecks">Crewnecks</a><a href="#shop" data-cat="tees">Tees</a><a href="#shop" data-cat="long-sleeves">Long sleeves</a><a href="#shop" data-cat="caps">Caps</a><a href="#lookbook">Lookbook</a><a href="#shipping">Shipping, duties & taxes</a>
+  </div>
+</header>
+
+<main id="view"></main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <div>
+        <span class="mark big" role="img" aria-label="FAGA"></span>
+        <p style="margin:18px 0 0;opacity:.75;font-size:14px">Join for drop alerts and 10% off your first order.</p>
+        <form class="news" data-signup="footer"><label for="email" style="position:absolute;left:-9999px">Email</label><input id="email" type="email" placeholder="Email address" required><button type="submit">Join</button></form>
+        <p class="pix" data-msg="footer" style="margin:10px 0 0;opacity:.8"></p>
+      </div>
+      <div><h4>Shop</h4><ul><li><a href="#shop" data-cat="hoodies">Hoodies</a></li><li><a href="#shop" data-cat="crewnecks">Crewnecks</a></li><li><a href="#shop" data-cat="tees">Tees</a></li><li><a href="#shop" data-cat="long-sleeves">Long sleeves</a></li><li><a href="#shop" data-cat="caps">Caps</a></li></ul></div>
+      <div><h4>Help</h4><ul><li><a href="#shipping">Shipping, duties & taxes</a></li><li><a href="#shipping">Returns</a></li><li><a href="#" data-guide="hd">Size guide</a></li><li><a href="#home">Contact</a></li></ul></div>
+      <div><h4>FAGA</h4><ul><li><a href="#lookbook">Lookbook</a></li><li><a href="#drop02">Drop 02</a></li><li><a href="#home">Instagram</a></li></ul></div>
+    </div>
+    <div class="legal"><span>© 2026 FAGA · Faga Media Ltd. · Hof Carmel, Israel</span><span class="pix" id="legalcur"></span></div>
+  </div>
+</footer>
+
+<div id="bagRoot"></div>
+<div id="modalRoot"></div>
+<div class="toast" id="toast" hidden></div>
+
+<script>
+const DATA = {"designs": [{"id": "mirror-hoodie", "name": "Mirror Hoodie", "type": "hd", "cat": "hoodies", "drop": 1, "price": 120, "back": true, "logo": "FAGA Mirror", "tech": "screen printed", "blurb": "Hoodie with a small FAGA mirror mark screen printed high on the left chest. \"You Can't Hold It\" runs through the FAGA mark down the full back.", "pop": 92, "order": 0, "variants": [{"pid": "fg-st-11", "code": "FG-ST-11", "colour": "Bone", "hex": "#E9E1CF", "collection": "Stone", "logo": "Mirror, espresso", "imgs": [{"k": "m/fg-st-11-1", "model": "Model is 180 cm and wears L"}, {"k": "m/fg-st-11-2", "model": "Model is 166 cm and wears M"}, {"k": "p4/fg-st-11-front", "model": ""}, {"k": "p4/fg-st-11-back", "model": ""}], "stock": {"S": 1, "M": 25, "L": 25, "XL": 25, "2XL": 25, "3XL": 0}}, {"pid": "fg-fd-14", "code": "FG-FD-14", "colour": "Vintage Brown", "hex": "#9E7551", "collection": "Field", "logo": "Mirror, cream", "imgs": [{"k": "m/fg-fd-14-1", "model": "Model is 180 cm and wears L"}, {"k": "m/fg-fd-14-2", "model": "Model is 166 cm and wears M"}, {"k": "p4/fg-fd-14-front", "model": ""}, {"k": "p4/fg-fd-14-back", "model": ""}], "stock": {"S": 25, "M": 25, "L": 25, "XL": 25, "2XL": 25, "3XL": 2}}, {"pid": "fg-27-12", "code": "FG-27-12", "colour": "Grounded", "hex": "#615E50", "collection": "2027", "logo": "Mirror, celery", "imgs": [{"k": "m/fg-27-12-1", "model": "Model is 180 cm and wears L"}, {"k": "m/fg-27-12-2", "model": "Model is 166 cm and wears M"}, {"k": "p4/fg-27-12-front", "model": ""}, {"k": "p4/fg-27-12-back", "model": ""}], "stock": {"S": 1, "M": 25, "L": 1, "XL": 25, "2XL": 25, "3XL": 3}}], "cost": 33.79}, {"id": "hold-tee", "name": "Hold Tee", "type": "tee", "cat": "tees", "drop": 1, "price": 60, "back": true, "logo": "FAGA Flat", "tech": "screen printed", "blurb": "Tee with a small FAGA flat mark screen printed high on the left chest. \"You Can't Hold It\" runs through the FAGA mark down the full back.", "pop": 121, "order": 1, "variants": [{"pid": "fg-st-13", "code": "FG-ST-13", "colour": "Vintage White", "hex": "#F3F0EB", "collection": "Stone", "logo": "Flat, espresso", "imgs": [{"k": "m/fg-st-13-1", "model": "Model is 188 cm and wears L"}, {"k": "m/fg-st-13-2", "model": "Model is 174 cm and wears M"}, {"k": "p4/fg-st-13-front", "model": ""}, {"k": "p4/fg-st-13-back", "model": ""}], "stock": {"S": 25, "M": 25, "L": 25, "XL": 25, "2XL": 25, "3XL": 25}}, {"pid": "fg-fd-16", "code": "FG-FD-16", "colour": "Camel", "hex": "#B3753D", "collection": "Field", "logo": "Flat, chocolate", "imgs": [{"k": "m/fg-fd-16-1", "model": "Model is 188 cm and wears L"}, {"k": "m/fg-fd-16-2", "model": "Model is 174 cm and wears M"}, {"k": "p4/fg-fd-16-front", "model": ""}, {"k": "p4/fg-fd-16-back", "model": ""}], "stock": {"S": 25, "M": 0, "L": 0, "XL": 25, "2XL": 0, "3XL": 25}}, {"pid": "fg-27-14", "code": "FG-27-14", "colour": "Celery", "hex": "#E0DDBD", "collection": "2027", "logo": "Flat, grounded", "imgs": [{"k": "m/fg-27-14-1", "model": "Model is 188 cm and wears L"}, {"k": "m/fg-27-14-2", "model": "Model is 174 cm and wears M"}, {"k": "p4/fg-27-14-front", "model": ""}, {"k": "p4/fg-27-14-back", "model": ""}], "stock": {"S": 25, "M": 25, "L": 2, "XL": 25, "2XL": 2, "3XL": 2}}], "cost": 32.42}, {"id": "hold-crewneck", "name": "Hold Crewneck", "type": "gdc", "cat": "crewnecks", "drop": 1, "price": 115, "back": true, "logo": "FAGA Flat", "tech": "screen printed", "blurb": "Garment-Dyed Crewneck with a small FAGA flat mark screen printed high on the left chest. \"You Can't Hold It\" runs through the FAGA mark down the full back.", "pop": 42, "order": 2, "variants": [{"pid": "fg-st-09", "code": "FG-ST-09", "colour": "Pepper", "hex": "#514F4C", "collection": "Stone", "logo": "Flat, bone", "imgs": [{"k": "m/fg-st-09-1", "model": "Model is 186 cm and wears L"}, {"k": "m/fg-st-09-2", "model": "Model is 168 cm and wears M"}, {"k": "p4/fg-st-09-front", "model": ""}, {"k": "p4/fg-st-09-back", "model": ""}], "stock": {"S": 25, "M": 1, "L": 25, "XL": 25, "2XL": 25, "3XL": 2}}, {"pid": "fg-fd-07", "code": "FG-FD-07", "colour": "Forest", "hex": "#2F4A35", "collection": "Field", "logo": "Flat, bone", "imgs": [{"k": "m/fg-fd-07-1", "model": "Model is 180 cm and wears L"}, {"k": "m/fg-fd-07-2", "model": "Model is 166 cm and wears M"}, {"k": "p4/fg-fd-07-front", "model": ""}, {"k": "p4/fg-fd-07-back", "model": ""}], "stock": {"S": 25, "M": 1, "L": 25, "XL": 2, "2XL": 25, "3XL": 1}}, {"pid": "fg-27-07", "code": "FG-27-07", "colour": "Grounded", "hex": "#615E50", "collection": "2027", "logo": "Flat, celery", "imgs": [{"k": "m/fg-27-07-1", "model": "Model is 186 cm and wears L"}, {"k": "m/fg-27-07-2", "model": "Model is 168 cm and wears M"}, {"k": "p4/fg-27-07-front", "model": ""}, {"k": "p4/fg-27-07-back", "model": ""}], "stock": {"S": 25, "M": 3, "L": 25, "XL": 25, "2XL": 25, "3XL": 25}}], "cost": 36.54}, {"id": "mirror-crewneck", "name": "Mirror Crewneck", "type": "hw", "cat": "crewnecks", "drop": 1, "price": 103, "back": true, "logo": "FAGA Mirror", "tech": "screen printed", "blurb": "Crewneck with a small FAGA mirror mark screen printed high on the left chest. \"You Can't Hold It\" runs through the FAGA mark down the full back.", "pop": 106, "order": 3, "variants": [{"pid": "fg-st-02", "code": "FG-ST-02", "colour": "Dust", "hex": "#F4E7D6", "collection": "Stone", "logo": "Mirror, espresso", "imgs": [{"k": "m/fg-st-02-1", "model": "Model is 188 cm and wears L"}, {"k": "m/fg-st-02-2", "model": "Model is 174 cm and wears M"}, {"k": "p4/fg-st-02-front", "model": ""}, {"k": "p4/fg-st-02-back", "model": ""}], "stock": {"S": 25, "M": 25, "L": 25, "XL": 25, "2XL": 25, "3XL": 25}}, {"pid": "fg-27-04", "code": "FG-27-04", "colour": "Grounded", "hex": "#615E50", "collection": "2027", "logo": "Mirror, celery", "imgs": [{"k": "m/fg-27-04-1", "model": "Model is 182 cm and wears L"}, {"k": "m/fg-27-04-2", "model": "Model is 170 cm and wears M"}, {"k": "p4/fg-27-04-front", "model": ""}, {"k": "p4/fg-27-04-back", "model": ""}], "stock": {"S": 25, "M": 25, "L": 25, "XL": 25, "2XL": 25, "3XL": 0}}], "cost": 39.1}, {"id": "mirror-long-sleeve", "name": "Mirror Long Sleeve", "type": "gdl", "cat": "long-sleeves", "drop": 1, "price": 73, "back": true, "logo": "FAGA Mirror", "tech": "screen printed", "blurb": "Long Sleeve with a small FAGA mirror mark screen printed high on the left chest. \"You Can't Hold It\" runs through the FAGA mark down the full back.", "pop": 61, "order": 4, "variants": [{"pid": "fg-st-07", "code": "FG-ST-07", "colour": "Washed Black", "hex": "#2C2C2C", "collection": "Stone", "logo": "Mirror, stone", "imgs": [{"k": "m/fg-st-07-1", "model": "Model is 186 cm and wears L"}, {"k": "m/fg-st-07-2", "model": "Model is 168 cm and wears M"}, {"k": "p4/fg-st-07-front", "model": ""}, {"k": "p4/fg-st-07-back", "model": ""}], "stock": {"XS": 25, "S": 25, "M": 2, "L": 25, "XL": 2, "2XL": 25, "3XL": 25}}, {"pid": "fg-fd-06", "code": "FG-FD-06", "colour": "Washed Pine", "hex": "#5B7B6F", "collection": "Field", "logo": "Mirror, cream", "imgs": [{"k": "m/fg-fd-06-1", "model": "Model is 188 cm and wears L"}, {"k": "m/fg-fd-06-2", "model": "Model is 174 cm and wears M"}, {"k": "p4/fg-fd-06-front", "model": ""}, {"k": "p4/fg-fd-06-back", "model": ""}], "stock": {"XS": 25, "S": 25, "M": 2, "L": 25, "XL": 25, "2XL": 25, "3XL": 25}}], "cost": 29.67}, {"id": "stroke-cap", "name": "Stroke Cord Cap", "type": "cap", "cat": "caps", "drop": 1, "price": 45, "back": false, "logo": "FAGA Stroke", "tech": "embroidered", "blurb": "Corduroy six-panel with the FAGA stroke mark embroidered at 5 cm, low on the front panels.", "pop": 129, "order": 5, "variants": [{"pid": "fg-st-10", "code": "FG-ST-10", "colour": "Black", "hex": "#101010", "collection": "Stone", "logo": "Stroke, smoke embroidery", "imgs": [{"k": "m/fg-st-10-1", "model": "Model is 188 cm · cap is one size"}, {"k": "m/fg-st-10-2", "model": "Model is 174 cm · cap is one size"}, {"k": "p4/fg-st-10-front", "model": ""}, {"k": "p4/fg-st-10-back", "model": ""}], "stock": {"One size": 25}}, {"pid": "fg-fd-09", "code": "FG-FD-09", "colour": "Camel", "hex": "#B3753D", "collection": "Field", "logo": "Stroke only, chocolate", "imgs": [{"k": "m/fg-fd-09-1", "model": "Model is 188 cm · cap is one size"}, {"k": "m/fg-fd-09-2", "model": "Model is 174 cm · cap is one size"}, {"k": "p4/fg-fd-09-front", "model": ""}, {"k": "p4/fg-fd-09-back", "model": ""}], "stock": {"One size": 25}}], "cost": 17.29}, {"id": "tab-cap", "name": "Tab Cord Cap", "type": "cap", "cat": "caps", "drop": 1, "price": 45, "back": false, "logo": "FAGA Tab", "tech": "embroidered", "blurb": "Corduroy six-panel with the FAGA tab mark embroidered at 5 cm, low on the front panels.", "pop": 100, "order": 6, "variants": [{"pid": "fg-fd-13", "code": "FG-FD-13", "colour": "Dark Olive", "hex": "#374225", "collection": "Field", "logo": "Woven tab, cream", "imgs": [{"k": "m/fg-fd-13-1", "model": "Model is 188 cm · cap is one size"}, {"k": "m/fg-fd-13-2", "model": "Model is 174 cm · cap is one size"}, {"k": "p4/fg-fd-13-front", "model": ""}, {"k": "p4/fg-fd-13-back", "model": ""}], "stock": {"One size": 25}}, {"pid": "fg-27-11", "code": "FG-27-11", "colour": "Celery", "hex": "#E0DDBD", "collection": "2027", "logo": "Woven tab, grounded", "imgs": [{"k": "m/fg-27-11-1", "model": "Model is 182 cm · cap is one size"}, {"k": "m/fg-27-11-2", "model": "Model is 170 cm · cap is one size"}, {"k": "p4/fg-27-11-front", "model": ""}, {"k": "p4/fg-27-11-back", "model": ""}], "stock": {"One size": 25}}], "cost": 17.29}, {"id": "block-cap", "name": "Block Cord Cap", "type": "cap", "cat": "caps", "drop": 1, "price": 45, "back": false, "logo": "FA/GA block", "tech": "embroidered", "blurb": "Corduroy six-panel with the FAGA fa/ga block mark embroidered at 5 cm, low on the front panels.", "pop": 53, "order": 7, "variants": [{"pid": "fg-fd-11", "code": "FG-FD-11", "colour": "Camel", "hex": "#B3753D", "collection": "Field", "logo": "FA/GA block, stroke only", "imgs": [{"k": "m/fg-fd-11-1", "model": "Model is 180 cm · cap is one size"}, {"k": "m/fg-fd-11-2", "model": "Model is 166 cm · cap is one size"}, {"k": "p4/fg-fd-11-front", "model": ""}, {"k": "p4/fg-fd-11-back", "model": ""}], "stock": {"One size": 25}}, {"pid": "fg-27-10", "code": "FG-27-10", "colour": "Grounded", "hex": "#615E50", "collection": "2027", "logo": "FA/GA block, celery embroidery", "imgs": [{"k": "m/fg-27-10-1", "model": "Model is 188 cm · cap is one size"}, {"k": "m/fg-27-10-2", "model": "Model is 174 cm · cap is one size"}, {"k": "p4/fg-27-10-front", "model": ""}, {"k": "p4/fg-27-10-back", "model": ""}], "stock": {"One size": 25}}], "cost": 17.29}, {"id": "tab-hoodie", "name": "Tab Hoodie", "type": "hd", "cat": "hoodies", "drop": 1, "price": 115, "back": false, "logo": "FAGA Tab", "tech": "screen printed", "blurb": "Hoodie with a small FAGA tab mark screen printed high on the left chest. Clean back.", "pop": 63, "order": 8, "variants": [{"pid": "fg-27-13", "code": "FG-27-13", "colour": "Soulful Sage", "hex": "#A8B4A2", "collection": "2027", "logo": "Tab, grounded", "imgs": [{"k": "m/fg-27-13-1", "model": "Model is 186 cm and wears L"}, {"k": "m/fg-27-13-2", "model": "Model is 168 cm and wears M"}, {"k": "p4/fg-27-13-front", "model": ""}, {"k": "p4/fg-27-13-back", "model": ""}], "stock": {"S": 25, "M": 25, "L": 25, "XL": 25, "2XL": 25, "3XL": 25}}], "cost": 27.84}, {"id": "solid-hoodie", "name": "Solid Hoodie", "type": "hd", "cat": "hoodies", "drop": 1, "price": 115, "back": false, "logo": "FAGA Solid", "tech": "screen printed", "blurb": "Hoodie with a small FAGA solid mark screen printed high on the left chest. Clean back.", "pop": 34, "order": 9, "variants": [{"pid": "fg-st-12", "code": "FG-ST-12", "colour": "Washed Black", "hex": "#2C2C2C", "collection": "Stone", "logo": "Solid, stone", "imgs": [{"k": "m/fg-st-12-1", "model": "Model is 186 cm and wears L"}, {"k": "m/fg-st-12-2", "model": "Model is 168 cm and wears M"}, {"k": "p4/fg-st-12-front", "model": ""}, {"k": "p4/fg-st-12-back", "model": ""}], "stock": {"S": 25, "M": 25, "L": 25, "XL": 25, "2XL": 25, "3XL": 25}}], "cost": 27.84}, {"id": "mirror-cap", "name": "Mirror Cord Cap", "type": "cap", "cat": "caps", "drop": 1, "price": 45, "back": false, "logo": "FAGA Mirror", "tech": "embroidered", "blurb": "Corduroy six-panel with the FAGA mirror mark embroidered at 5 cm, low on the front panels.", "pop": 67, "order": 10, "variants": [{"pid": "fg-fd-12", "code": "FG-FD-12", "colour": "Camel", "hex": "#B3753D", "collection": "Field", "logo": "Mirror, chocolate embroidery", "imgs": [{"k": "m/fg-fd-12-1", "model": "Model is 186 cm · cap is one size"}, {"k": "m/fg-fd-12-2", "model": "Model is 168 cm · cap is one size"}, {"k": "p4/fg-fd-12-front", "model": ""}, {"k": "p4/fg-fd-12-back", "model": ""}], "stock": {"One size": 0}}], "cost": 17.29}, {"id": "tab-long-sleeve", "name": "Tab Long Sleeve", "type": "gdl", "cat": "long-sleeves", "drop": 1, "price": 68, "back": false, "logo": "FAGA Tab", "tech": "screen printed", "blurb": "Long Sleeve with a small FAGA tab mark screen printed high on the left chest. Clean back.", "pop": 24, "order": 11, "variants": [{"pid": "fg-27-05", "code": "FG-27-05", "colour": "Soulful Sage", "hex": "#A8B4A2", "collection": "2027", "logo": "Woven tab, grounded", "imgs": [{"k": "m/fg-27-05-1", "model": "Model is 180 cm and wears L"}, {"k": "m/fg-27-05-2", "model": "Model is 166 cm and wears M"}, {"k": "p4/fg-27-05-front", "model": ""}, {"k": "p4/fg-27-05-back", "model": ""}], "stock": {"XS": 25, "S": 25, "M": 25, "L": 3, "XL": 25, "2XL": 25, "3XL": 25}}], "cost": 23.72}, {"id": "clean-mirror-crewneck", "name": "Clean Mirror Crewneck", "type": "hw", "cat": "crewnecks", "drop": 2, "price": 98, "back": false, "logo": "FAGA Mirror", "tech": "screen printed", "blurb": "Crewneck with a small FAGA mirror mark screen printed high on the left chest. Clean back.", "pop": 106, "order": 12, "variants": [{"pid": "fg-fd-02", "code": "FG-FD-02", "colour": "Vintage Brown", "hex": "#9E7551", "collection": "Field", "logo": "Mirror, cream", "imgs": [{"k": "m/fg-fd-02-1", "model": "Model is 180 cm and wears L"}, {"k": "m/fg-fd-02-2", "model": "Model is 166 cm and wears M"}, {"k": "p4/fg-fd-02-front", "model": ""}, {"k": "p4/fg-fd-02-back", "model": ""}], "stock": {"S": 25, "M": 25, "L": 25, "XL": 25, "2XL": 25, "3XL": 2}}, {"pid": "fg-27-02", "code": "FG-27-02", "colour": "Celery", "hex": "#E0DDBD", "collection": "2027", "logo": "Mirror, grounded", "imgs": [{"k": "m/fg-27-02-1", "model": "Model is 188 cm and wears L"}, {"k": "m/fg-27-02-2", "model": "Model is 174 cm and wears M"}, {"k": "p4/fg-27-02-front", "model": ""}, {"k": "p4/fg-27-02-back", "model": ""}], "stock": {"S": 25, "M": 2, "L": 3, "XL": 25, "2XL": 25, "3XL": 25}}], "cost": 33.15}, {"id": "tab-crewneck", "name": "Tab Crewneck", "type": "hw", "cat": "crewnecks", "drop": 2, "price": 98, "back": false, "logo": "FAGA Tab", "tech": "screen printed", "blurb": "Crewneck with a small FAGA tab mark screen printed high on the left chest. Clean back.", "pop": 59, "order": 13, "variants": [{"pid": "fg-st-03", "code": "FG-ST-03", "colour": "Dust", "hex": "#F4E7D6", "collection": "Stone", "logo": "Woven tab, espresso", "imgs": [{"k": "m/fg-st-03-1", "model": "Model is 182 cm and wears L"}, {"k": "m/fg-st-03-2", "model": "Model is 170 cm and wears M"}, {"k": "p4/fg-st-03-front", "model": ""}, {"k": "p4/fg-st-03-back", "model": ""}], "stock": {"S": 25, "M": 25, "L": 2, "XL": 0, "2XL": 25, "3XL": 25}}], "cost": 33.15}, {"id": "flat-crewneck", "name": "Flat Hold Crewneck", "type": "hw", "cat": "crewnecks", "drop": 2, "price": 103, "back": true, "logo": "FAGA Flat", "tech": "screen printed", "blurb": "Crewneck with a small FAGA flat mark screen printed high on the left chest. \"You Can't Hold It\" runs through the FAGA mark down the full back.", "pop": 98, "order": 14, "variants": [{"pid": "fg-fd-03", "code": "FG-FD-03", "colour": "Vintage Brown", "hex": "#9E7551", "collection": "Field", "logo": "Flat, cream", "imgs": [{"k": "m/fg-fd-03-1", "model": "Model is 186 cm and wears L"}, {"k": "m/fg-fd-03-2", "model": "Model is 168 cm and wears M"}, {"k": "p4/fg-fd-03-front", "model": ""}, {"k": "p4/fg-fd-03-back", "model": ""}], "stock": {"S": 25, "M": 25, "L": 25, "XL": 25, "2XL": 25, "3XL": 0}}], "cost": 39.1}, {"id": "solid-crewneck", "name": "Solid Premium Crewneck", "type": "prm", "cat": "crewnecks", "drop": 2, "price": 98, "back": false, "logo": "FAGA Solid", "tech": "screen printed", "blurb": "Premium Crewneck with a small FAGA solid mark screen printed high on the left chest. Clean back.", "pop": 16, "order": 15, "variants": [{"pid": "fg-st-04", "code": "FG-ST-04", "colour": "Bone", "hex": "#E9E1CF", "collection": "Stone", "logo": "Solid, espresso", "imgs": [{"k": "m/fg-st-04-1", "model": "Model is 180 cm and wears L"}, {"k": "m/fg-st-04-2", "model": "Model is 166 cm and wears M"}, {"k": "p4/fg-st-04-front", "model": ""}, {"k": "p4/fg-st-04-back", "model": ""}], "stock": {"S": 25, "M": 25, "L": 25, "XL": 25, "2XL": 2, "3XL": 2}}], "cost": 24.53}, {"id": "flat-hoodie", "name": "Flat Hoodie", "type": "hd", "cat": "hoodies", "drop": 2, "price": 115, "back": false, "logo": "FAGA Flat", "tech": "screen printed", "blurb": "Hoodie with a small FAGA flat mark screen printed high on the left chest. Clean back.", "pop": 74, "order": 16, "variants": [{"pid": "fg-fd-15", "code": "FG-FD-15", "colour": "Dark Olive", "hex": "#374225", "collection": "Field", "logo": "Flat, cream", "imgs": [{"k": "m/fg-fd-15-1", "model": "Model is 186 cm and wears L"}, {"k": "m/fg-fd-15-2", "model": "Model is 168 cm and wears M"}, {"k": "p4/fg-fd-15-front", "model": ""}, {"k": "p4/fg-fd-15-back", "model": ""}], "stock": {"S": 25, "M": 25, "L": 25, "XL": 1, "2XL": 25, "3XL": 25}}], "cost": 27.84}, {"id": "tab-tee", "name": "Tab Tee", "type": "tee", "cat": "tees", "drop": 2, "price": 55, "back": false, "logo": "FAGA Tab", "tech": "screen printed", "blurb": "Tee with a small FAGA tab mark screen printed high on the left chest. Clean back.", "pop": 76, "order": 17, "variants": [{"pid": "fg-st-14", "code": "FG-ST-14", "colour": "Pepper", "hex": "#514F4C", "collection": "Stone", "logo": "Tab, bone", "imgs": [{"k": "m/fg-st-14-1", "model": "Model is 182 cm and wears L"}, {"k": "m/fg-st-14-2", "model": "Model is 170 cm and wears M"}, {"k": "p4/fg-st-14-front", "model": ""}, {"k": "p4/fg-st-14-back", "model": ""}], "stock": {"S": 2, "M": 0, "L": 25, "XL": 25, "2XL": 25, "3XL": 3}}], "cost": 26.47}, {"id": "mirror-tee", "name": "Mirror Tee", "type": "tee", "cat": "tees", "drop": 2, "price": 55, "back": false, "logo": "FAGA Mirror", "tech": "screen printed", "blurb": "Tee with a small FAGA mirror mark screen printed high on the left chest. Clean back.", "pop": 28, "order": 18, "variants": [{"pid": "fg-fd-17", "code": "FG-FD-17", "colour": "Washed Pine", "hex": "#5B7B6F", "collection": "Field", "logo": "Mirror, cream", "imgs": [{"k": "m/fg-fd-17-1", "model": "Model is 182 cm and wears L"}, {"k": "m/fg-fd-17-2", "model": "Model is 170 cm and wears M"}, {"k": "p4/fg-fd-17-front", "model": ""}, {"k": "p4/fg-fd-17-back", "model": ""}], "stock": {"S": 25, "M": 25, "L": 25, "XL": 25, "2XL": 25, "3XL": 25}}], "cost": 26.47}, {"id": "solid-tee", "name": "Solid Tee", "type": "tee", "cat": "tees", "drop": 2, "price": 55, "back": false, "logo": "FAGA Solid", "tech": "screen printed", "blurb": "Tee with a small FAGA solid mark screen printed high on the left chest. Clean back.", "pop": 4, "order": 19, "variants": [{"pid": "fg-27-15", "code": "FG-27-15", "colour": "Grounded", "hex": "#615E50", "collection": "2027", "logo": "Solid, celery", "imgs": [{"k": "m/fg-27-15-1", "model": "Model is 182 cm and wears L"}, {"k": "m/fg-27-15-2", "model": "Model is 170 cm and wears M"}, {"k": "p4/fg-27-15-front", "model": ""}, {"k": "p4/fg-27-15-back", "model": ""}], "stock": {"S": 25, "M": 25, "L": 25, "XL": 25, "2XL": 25, "3XL": 25}}], "cost": 26.47}, {"id": "two-tone-cap", "name": "Two-Tone Cord Cap", "type": "cap", "cat": "caps", "drop": 2, "price": 45, "back": false, "logo": "FAGA Two-tone", "tech": "embroidered", "blurb": "Corduroy six-panel with the FAGA two-tone mark embroidered at 5 cm, low on the front panels.", "pop": 81, "order": 20, "variants": [{"pid": "fg-fd-08", "code": "FG-FD-08", "colour": "Camel", "hex": "#B3753D", "collection": "Field", "logo": "Two-tone, cream and chocolate", "imgs": [{"k": "m/fg-fd-08-1", "model": "Model is 186 cm · cap is one size"}, {"k": "m/fg-fd-08-2", "model": "Model is 168 cm · cap is one size"}, {"k": "p4/fg-fd-08-front", "model": ""}, {"k": "p4/fg-fd-08-back", "model": ""}], "stock": {"One size": 2}}], "cost": 17.29}, {"id": "block-two-tone-cap", "name": "Block Two-Tone Cap", "type": "cap", "cat": "caps", "drop": 2, "price": 45, "back": false, "logo": "FA/GA block", "tech": "embroidered", "blurb": "Corduroy six-panel with the FAGA fa/ga block mark embroidered at 5 cm, low on the front panels.", "pop": 44, "order": 21, "variants": [{"pid": "fg-fd-10", "code": "FG-FD-10", "colour": "Camel", "hex": "#B3753D", "collection": "Field", "logo": "FA/GA block, two-tone", "imgs": [{"k": "m/fg-fd-10-1", "model": "Model is 182 cm · cap is one size"}, {"k": "m/fg-fd-10-2", "model": "Model is 170 cm · cap is one size"}, {"k": "p4/fg-fd-10-front", "model": ""}, {"k": "p4/fg-fd-10-back", "model": ""}], "stock": {"One size": 25}}], "cost": 17.29}], "types": {"hd": {"label": "Hoodie", "cat": "hoodies", "price": 115, "blank": "Cotton Heritage M2580", "sizes": ["S", "M", "L", "XL", "2XL", "3XL"], "fabric": ["Premium pullover fleece, 100% cotton face", "65% ring-spun cotton, 35% polyester", "Three-panel hood, flat matching drawcords, front pouch pocket"], "fit": "Relaxed fit that runs small. Size up one for an oversized look.", "guide": [["S", 50.8, 68.6], ["M", 53.3, 71.1], ["L", 58.4, 73.7], ["XL", 63.5, 76.2], ["2XL", 67.3, 78.7], ["3XL", 71.1, 81.3]]}, "hw": {"label": "Crewneck", "cat": "crewnecks", "price": 98, "blank": "Bella+Canvas 4711", "sizes": ["S", "M", "L", "XL", "2XL", "3XL"], "fabric": ["Heavyweight fleece, 339 g/m² (10 oz)", "60% Airlume combed ring-spun cotton, 40% polyester", "Brushed inside"], "fit": "Oversized fit with slightly dropped shoulders. Take your usual size.", "guide": [["S", 54.6, 71.1], ["M", 59.7, 72.4], ["L", 64.8, 74.9], ["XL", 69.9, 76.2], ["2XL", 74.9, 77.5], ["3XL", 80.0, 78.7]]}, "prm": {"label": "Premium Crewneck", "cat": "crewnecks", "price": 98, "blank": "Cotton Heritage M2480", "sizes": ["S", "M", "L", "XL", "2XL", "3XL"], "fabric": ["Premium fleece, 288 g/m² (8.5 oz)", "65% cotton, 35% polyester, 100% cotton face", "Side-seamed construction"], "fit": "Classic fit that runs small. Size up one for a relaxed look.", "guide": [["S", 50.8, 68.6], ["M", 53.3, 71.1], ["L", 58.4, 73.7], ["XL", 63.5, 76.2], ["2XL", 67.3, 78.7], ["3XL", 71.1, 81.3]]}, "gdc": {"label": "Garment-Dyed Crewneck", "cat": "crewnecks", "price": 110, "blank": "Comfort Colors 1566", "sizes": ["S", "M", "L", "XL", "2XL", "3XL"], "fabric": ["Garment-dyed fleece, 322 g/m² (9.5 oz)", "80% ring-spun cotton, 20% polyester, 100% cotton face", "Every piece fades slightly differently"], "fit": "Relaxed fit. Take your usual size.", "guide": [["S", 53.3, 69.9], ["M", 58.4, 72.4], ["L", 63.5, 74.9], ["XL", 67.3, 77.5], ["2XL", 71.1, 80.0], ["3XL", 74.9, 82.6]]}, "gdl": {"label": "Long Sleeve", "cat": "long-sleeves", "price": 68, "blank": "Bella+Canvas 4851GD", "sizes": ["XS", "S", "M", "L", "XL", "2XL", "3XL"], "fabric": ["Garment-dyed heavyweight jersey, 220 g/m² (6.5 oz)", "100% ring-spun cotton", "Double-needle neck, side-seamed"], "fit": "Relaxed fit with semi-dropped shoulders. Take your usual size.", "guide": [["XS", 47.6, 68.0], ["S", 50.2, 70.5], ["M", 52.7, 73.0], ["L", 57.8, 75.6], ["XL", 62.9, 78.1], ["2XL", 68.0, 80.7], ["3XL", 73.0, 83.2]]}, "tee": {"label": "Tee", "cat": "tees", "price": 55, "blank": "AS Colour 5082", "sizes": ["S", "M", "L", "XL", "2XL", "3XL"], "fabric": ["Heavy faded jersey, 240 g/m² (7.1 oz)", "100% carded cotton", "Garment-dyed and pre-shrunk, wide neck rib"], "fit": "Boxy oversized fit with dropped shoulders. Take your usual size.", "guide": [["S", 51, 70.5], ["M", 55, 74], ["L", 59, 77.5], ["XL", 63, 81], ["2XL", 67, 84.5], ["3XL", 71, 86.5]]}, "cap": {"label": "Cord Cap", "cat": "caps", "price": 45, "blank": "Beechfield B682", "sizes": ["One size"], "fabric": ["100% cotton corduroy", "Unstructured six-panel crown, curved brim", "Cotton twill sweatband, adjustable buckle strap"], "fit": "One size, adjustable strap. Fits 54–60 cm head circumference.", "guide": []}}, "countries": {"IL": {"name": "Israel", "cur": "ILS", "rate": 3.0625, "vat": 0.18, "vatName": "VAT", "incl": true, "ship": 35, "free": 450, "eta": "6–10 business days", "hub": "EU (Latvia)", "duty": "il", "dutyNote": "No customs duty on orders under $500. Above $500 an estimated 12% clothing duty is added at checkout. Israeli VAT (18%) is included in every price."}, "US": {"name": "United States", "cur": "USD", "rate": 1, "vat": 0, "vatName": "Sales tax", "incl": false, "ship": 8, "free": 150, "eta": "3–6 business days", "hub": "USA", "duty": "none", "dutyNote": "Printed and shipped inside the US, so there are no import duties. State sales tax is calculated at checkout."}, "GB": {"name": "United Kingdom", "cur": "GBP", "rate": 0.7575, "vat": 0.2, "vatName": "VAT", "incl": true, "ship": 6, "free": 120, "eta": "4–7 business days", "hub": "EU (Latvia)", "duty": "uk", "dutyNote": "UK VAT (20%) is included. No customs duty on orders up to £135; above that an estimated 12% duty is added at checkout."}, "DE": {"name": "Germany", "cur": "EUR", "rate": 0.8928, "vat": 0.19, "vatName": "VAT", "incl": true, "ship": 7, "free": 140, "eta": "3–6 business days", "hub": "EU (Latvia)", "duty": "none", "dutyNote": "Ships from inside the EU, so there are no customs duties. German VAT (19%) is included."}, "FR": {"name": "France", "cur": "EUR", "rate": 0.8928, "vat": 0.2, "vatName": "VAT", "incl": true, "ship": 7, "free": 140, "eta": "3–6 business days", "hub": "EU (Latvia)", "duty": "none", "dutyNote": "Ships from inside the EU, so there are no customs duties. French VAT (20%) is included."}, "NL": {"name": "Netherlands", "cur": "EUR", "rate": 0.8928, "vat": 0.21, "vatName": "VAT", "incl": true, "ship": 7, "free": 140, "eta": "3–6 business days", "hub": "EU (Latvia)", "duty": "none", "dutyNote": "Ships from inside the EU, so there are no customs duties. Dutch VAT (21%) is included."}, "IT": {"name": "Italy", "cur": "EUR", "rate": 0.8928, "vat": 0.22, "vatName": "VAT", "incl": true, "ship": 7, "free": 140, "eta": "4–7 business days", "hub": "EU (Latvia)", "duty": "none", "dutyNote": "Ships from inside the EU, so there are no customs duties. Italian VAT (22%) is included."}, "ES": {"name": "Spain", "cur": "EUR", "rate": 0.8928, "vat": 0.21, "vatName": "VAT", "incl": true, "ship": 7, "free": 140, "eta": "4–7 business days", "hub": "EU (Spain)", "duty": "none", "dutyNote": "Ships from inside the EU, so there are no customs duties. Spanish VAT (21%) is included."}, "CA": {"name": "Canada", "cur": "CAD", "rate": 1.4257, "vat": 0, "vatName": "GST/HST", "incl": false, "ship": 12, "free": 200, "eta": "4–8 business days", "hub": "Canada", "duty": "none", "dutyNote": "Printed and shipped inside Canada, so there are no import duties. GST/HST (5–15% by province) is calculated at checkout."}, "AU": {"name": "Australia", "cur": "AUD", "rate": 1.4384, "vat": 0.1, "vatName": "GST", "incl": true, "ship": 15, "free": 220, "eta": "4–8 business days", "hub": "Australia", "duty": "au", "dutyNote": "GST (10%) is included. No customs duty on orders under A$1,000."}}, "fx": 0.03, "coll": {"Stone": {"title": "Stone", "mood": "Warm neutrals and washed black. Tonal marks in espresso and stone.", "lead": "mirror-crewneck"}, "Field": {"title": "Field", "mood": "Earth tones: vintage brown, camel, dark olive and pine, with cream marks.", "lead": "hold-crewneck"}, "2027": {"title": "Colors of 2027", "mood": "Celery, Soulful Sage and Grounded, three 2027 colours of the year.", "lead": "mirror-hoodie"}}, "drop2": "2026-11-19T10:00:00+02:00"};
+const IMG = 'img/', DS = DATA.designs, TY = DATA.types, CO = DATA.countries, COLL = DATA.coll;
+const CATS = { all:'Shop all', hoodies:'Hoodies', crewnecks:'Crewnecks', tees:'Tees', 'long-sleeves':'Long sleeves', caps:'Caps' };
+const SIZES = ['XS','S','M','L','XL','2XL','3XL','One size'];
+const DROP2 = new Date(DATA.drop2);
+const SIGNUP_URL = 'https://script.google.com/macros/s/AKfycbywgEqI0Zx70K1KD2pMTz_wpy9B_UDhc6a_CK0c8z7N4UYJGD7J-k7Hg04QKQ5Sqh8-cQ/exec';
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const src = k => IMG + k + '.jpg';
+const byId = id => DS.find(d => d.id === id);
+const ls = { get(k, d){ try { const v = localStorage.getItem(k); return v === null ? d : JSON.parse(v); } catch(e){ return d; } }, set(k, v){ try { localStorage.setItem(k, JSON.stringify(v)); } catch(e){} } };
+
+/* ---------- country, currency, prices ---------- */
+let country = ls.get('faga_country', 'IL'); if (!CO[country]) country = 'IL';
+const C = () => CO[country];
+function nice(x, cur){                     // round up to a clean retail price
+  if (cur === 'ILS') return Math.ceil((x + 1) / 10) * 10 - 1;     // ₪…9
+  if (cur === 'USD') return Math.ceil(x);
+  return Math.ceil(x / 5) * 5;                                    // €/£/C$/A$ …0 / …5
+}
+function localPrice(usd){                  // displayed shelf price in the chosen country
+  const c = C(); const fx = c.cur === 'USD' ? 0 : DATA.fx;
+  return nice(usd * c.rate * (1 + fx) * (c.incl ? 1 + c.vat : 1), c.cur);
+}
+const fmt = (n, cur = C().cur) => new Intl.NumberFormat('en-US', { style:'currency', currency:cur, maximumFractionDigits: n % 1 ? 2 : 0 }).format(n);
+const toUSD = n => n / C().rate;
+
+/* ---------- stock / badges ---------- */
+const vStock = v => Object.values(v.stock).reduce((a, b) => a + b, 0);
+const isLow = v => Object.values(v.stock).some(q => q > 0 && q <= 3);
+function badges(d, v){
+  const b = [];
+  if (d.drop === 2) b.push(['dark', 'Drop 02']);
+  else if (!vStock(v)) b.push(['dark', 'Sold out']);
+  else { if (v.collection === '2027' || d.pop > 110) b.push(['', 'New']); if (isLow(v)) b.push(['warn', 'Low stock']); }
+  return b.map(([c, t]) => `<span class="badge ${c}">${t}</span>`).join('');
+}
+
+/* ---------- state ---------- */
+let bag = ls.get('faga_bag4', []).filter(l => byId(l.d) && byId(l.d).variants.some(v => v.pid === l.v));
+let code = ls.get('faga_code', '');
+const F = { cat:'all', coll:'all', sizes:new Set(), sort:'featured' };
+const saveBag = () => ls.set('faga_bag4', bag);
+const vOf = (d, pid) => d.variants.find(v => v.pid === pid) || d.variants[0];
+
+/* ---------- cards ---------- */
+function card(d, vi = 0){
+  const v = d.variants[vi]; const T = TY[d.type];
+  const sold = !vStock(v);
+  const qa = d.drop === 1 && !sold ? `<div class="qa" role="group" aria-label="Quick add"><small>Quick add · ${esc(v.colour)}</small><div class="s">${T.sizes.map(s => `<button data-qa="${d.id}|${v.pid}|${s}" ${v.stock[s] ? '' : 'disabled'} aria-label="Add size ${s}">${s === 'One size' ? 'Add' : s}</button>`).join('')}</div></div>` : '';
+  return `<div class="card" data-card="${d.id}">
+    <a class="ph" href="#p-${d.id}~${v.pid}"><span class="badges">${badges(d, v)}</span>
+      <img src="${src(v.imgs[0].k)}" alt="${esc(d.name)} in ${esc(v.colour)}, worn" loading="lazy">
+      <img class="alt" src="${src(v.imgs[2].k)}" alt="" loading="lazy"></a>
+    ${qa}
+    <div class="meta"><div class="row"><a href="#p-${d.id}~${v.pid}" style="text-decoration:none"><b>${esc(d.name)}</b></a><span class="price">${fmt(localPrice(d.price))}</span></div>
+      <div class="sub"><span>${esc(v.colour)}</span><span>${d.variants.length > 1 ? d.variants.length + ' colours' : ''}</span></div>
+      ${d.variants.length > 1 ? `<div class="sws">${d.variants.map((x, i) => `<button class="swb" style="background:${x.hex}" data-sw="${d.id}|${i}" aria-pressed="${i === vi}" aria-label="${esc(x.colour)}"></button>`).join('')}</div>` : ''}
+    </div></div>`;
+}
+function filtered(){
+  let list = DS.filter(d => (F.cat === 'all' || d.cat === F.cat) && (F.coll === 'all' || d.variants.some(v => v.collection === F.coll)));
+  if (F.sizes.size) list = list.filter(d => d.drop === 1 && d.variants.some(v => [...F.sizes].some(s => v.stock[s] > 0)));
+  const k = { featured:(a, b) => a.drop - b.drop || a.order - b.order, newest:(a, b) => b.drop - a.drop || b.order - a.order,
+              popular:(a, b) => a.drop - b.drop || b.pop - a.pop, low:(a, b) => a.price - b.price, high:(a, b) => b.price - a.price }[F.sort];
+  return list.sort(k);
+}
+function vIndexFor(d){ const i = F.coll === 'all' ? 0 : d.variants.findIndex(v => v.collection === F.coll); return Math.max(0, i); }
+function gridHtml(){
+  const list = filtered();
+  const chip = (k, v, attr, on) => `<button class="chip" ${attr}="${k}" aria-pressed="${on}">${v}</button>`;
+  return `<div class="toolbar">
+    <div class="chips" role="group" aria-label="Category">${Object.entries(CATS).map(([k, v]) => chip(k, v, 'data-filter', F.cat === k)).join('')}<span class="sep" aria-hidden="true"></span>${chip('all', 'All collections', 'data-coll', F.coll === 'all')}${Object.entries(COLL).map(([k, c]) => chip(k, c.title, 'data-coll', F.coll === k)).join('')}</div>
+    <div class="row2"><div class="szf" role="group" aria-label="Size"><span class="pix" style="color:var(--muted)">Size</span>${SIZES.map(s => chip(s, s, 'data-size', F.sizes.has(s))).join('')}</div>
+      <label class="sortsel">Sort <select id="sort">${[['featured','Featured'],['newest','Newest'],['popular','Most popular'],['low','Price: low to high'],['high','Price: high to low']].map(([k, t]) => `<option value="${k}" ${F.sort === k ? 'selected' : ''}>${t}</option>`).join('')}</select></label></div>
+    <p class="pix" style="color:var(--muted);margin:0">${list.length} designs · ${list.reduce((n, d) => n + d.variants.length, 0)} colourways</p></div>
+    <div class="grid" style="margin-top:18px">${list.map(d => card(d, vIndexFor(d))).join('') || '<p>No designs match these filters.</p>'}</div>`;
+}
+
+/* ---------- countdown + signup ---------- */
+function cdHtml(){ return `<div class="cd" aria-live="off">${['Days','Hrs','Min','Sec'].map(u => `<div><b data-cd="${u}">00</b><span>${u}</span></div>`).join('')}</div>`; }
+function tick(){
+  let s = Math.max(0, Math.floor((DROP2 - Date.now()) / 1000));
+  const p = { Days:Math.floor(s / 86400), Hrs:Math.floor(s % 86400 / 3600), Min:Math.floor(s % 3600 / 60), Sec:s % 60 };
+  document.querySelectorAll('[data-cd]').forEach(el => el.textContent = String(p[el.dataset.cd]).padStart(2, '0'));
+}
+setInterval(tick, 1000);
+const signupForm = (id, label = 'Notify me') => `<form class="signup" data-signup="${id}"><label for="e-${id}" style="position:absolute;left:-9999px">Email</label><input id="e-${id}" type="email" placeholder="Email address" required><button type="submit"><span>${label}</span></button></form><p class="pix" data-msg="${id}" style="margin:10px 0 0;min-height:14px"></p>`;
+
+/* ---------- pages ---------- */
+function home(){
+  const hero = [['hold-crewneck', 2], ['stroke-cap', 1], ['mirror-hoodie', 0]].map(([id, i]) => [byId(id), i]);
+  const d2 = DS.filter(d => d.drop === 2);
+  return `
+  <div class="hero3"><div class="wrap in">
+    <div><span class="pix eyebrow">Drop 01 · Fall 2026</span><h1>You can't<br>hold it.</h1>
+      <p>Heavyweight hoodies, crews, faded tees and corduroy caps in stone, earth and the colours of 2027. Shirts printed, caps embroidered.</p>
+      <div class="btns"><a class="btn solid" href="#shop">Shop Drop 01</a><a class="btn" href="#lookbook">Lookbook</a></div></div>
+    <div class="shots">${hero.map(([d, i]) => { const v = d.variants[i]; return `<a href="#p-${d.id}~${v.pid}"><img src="${src(v.imgs[0].k)}" alt="${esc(d.name)} in ${esc(v.colour)}" fetchpriority="high"></a>`; }).join('')}</div>
+  </div></div>
+  <section class="wrap" id="shop">
+    <div class="head"><div><span class="pix eyebrow">Drop 01 · Preview · orders open soon</span><h2>Shop</h2></div><a class="linkbtn" href="#shipping">Shipping, duties & taxes</a></div>
+    <div id="grid">${gridHtml()}</div>
+  </section>
+  <section class="drop2" id="drop02"><div class="wrap in">
+    <div><span class="pix" style="opacity:.7">Coming soon</span><h2>Drop 02</h2>
+      <p>${d2.length} more designs: the clean Mirror crew, the Tab and Solid pieces, and two-tone cord caps. Releases ${DROP2.toLocaleDateString('en-GB', { day:'numeric', month:'long' })} at 10:00 Israel time. Subscribers get first access.</p>
+      ${cdHtml()}${signupForm('drop2')}</div>
+    <div class="thumbs">${d2.slice(0, 8).map(d => `<a href="#p-${d.id}"><img src="${src(d.variants[0].imgs[0].k)}" alt="${esc(d.name)}, Drop 02" loading="lazy"></a>`).join('')}</div>
+  </div></section>
+  <section class="wrap" id="collections">
+    <div class="head"><div><span class="pix eyebrow">Collections</span><h2>Three palettes</h2></div></div>
+    <div class="cols">${Object.entries(COLL).map(([k, c]) => { const d = byId(c.lead); const v = d.variants.find(x => x.collection === k) || d.variants[0];
+      return `<a class="coll" href="#shop" data-coll="${k}"><img src="${src(v.imgs[0].k)}" alt="${esc(c.title)} collection" loading="lazy">
+      <div class="t"><b>${esc(c.title)}</b><p>${esc(c.mood)}</p></div></a>`; }).join('')}</div>
+  </section>
+  <section class="split">
+    <img src="${src(byId('tab-cap').variants[0].imgs[0].k)}" alt="Dark Olive Tab Cord Cap, worn" loading="lazy">
+    <div class="txt"><span class="pix" style="color:var(--accent)">Lookbook</span>
+      <h2>Worn outside.</h2>
+      <p>Concrete, limestone, rooftops and desert. Every piece shot on people, front and back.</p>
+      <a class="btn solid" href="#lookbook" style="justify-self:start;align-self:flex-start">View the lookbook</a></div>
+  </section>`;
+}
+
+function deliveryBox(){
+  const c = C();
+  return `<div class="deliv">
+    <div><b>Delivery to ${esc(c.name)}:</b> ${c.eta} · ${fmt(c.ship)}, free over ${fmt(c.free)}</div>
+    <div class="muted">Ships from ${esc(c.hub)}. ${esc(c.dutyNote)}</div>
+    <div class="muted">Free returns within 14 days of delivery, unworn with tags. <a class="linkbtn" href="#shipping">Shipping, duties & taxes</a></div>
+    <div class="pay">${(country === 'IL' ? ['Visa','Mastercard','Apple Pay','Google Pay','Bit','PayPal'] : ['Visa','Mastercard','Amex','Apple Pay','Google Pay','PayPal','Klarna']).map(p => `<span>${p}</span>`).join('')}</div>
+  </div>`;
+}
+function bnpl(price){ return country === 'IL' ? `Or 3 interest-free payments of ${fmt(Math.round(price / 3))}` : `Or 4 interest-free payments of ${fmt(Math.round(price / 4 * 100) / 100)} with Klarna`; }
+
+function lookFor(d, v){                    // complete the look: same collection, other categories
+  const out = []; const want = d.cat === 'caps' ? ['hoodies', 'tees', 'crewnecks'] : ['caps', d.cat === 'tees' ? 'hoodies' : 'tees', 'long-sleeves', 'crewnecks', 'hoodies'];
+  for (const cat of want){
+    const cand = DS.filter(x => x.cat === cat && x.id !== d.id && x.drop === 1).sort((a, b) => b.pop - a.pop);
+    for (const x of cand){ const xv = x.variants.find(y => y.collection === v.collection); if (xv && !out.some(o => o[0].cat === cat)){ out.push([x, x.variants.indexOf(xv)]); break; } }
+    if (out.length === 3) break;
+  }
+  return out;
+}
+
+function pdp(d, v){
+  const T = TY[d.type]; const price = localPrice(d.price); const vi = d.variants.indexOf(v);
+  const gallery = v.imgs.map((im, i) => `<figure><img src="${src(im.k)}" alt="${esc(d.name)} in ${esc(v.colour)}, ${['worn', 'worn', 'front', 'back'][i]}" ${i ? 'loading="lazy"' : ''}>${im.model ? `<figcaption>${esc(im.model)}</figcaption>` : `<figcaption>${i === 2 ? 'Front' : 'Back'}</figcaption>`}</figure>`).join('');
+  const sizes = T.sizes.map(s => { const q = v.stock[s]; return `<button class="size" data-size-pick="${s}" aria-pressed="${T.sizes.length === 1 && q > 0}" ${q ? '' : 'disabled'}>${s}${q && q <= 3 ? `<small>${q} left</small>` : ''}</button>`; }).join('');
+  const model = v.imgs.find(i => i.model);
+  const look = lookFor(d, v);
+  const buy = d.drop === 2
+    ? `<div class="deliv"><b>Drop 02 · releases ${DROP2.toLocaleDateString('en-GB', { day:'numeric', month:'long' })}</b><span class="muted">Get an email the moment it goes live.</span>${signupForm('pdp-' + d.id)}</div>`
+    : !vStock(v) ? `<button class="btn solid add" disabled>Sold out</button>${signupForm('restock-' + v.pid, 'Email me on restock')}`
+    : `<div><div class="row2" style="margin-bottom:8px"><span class="pix">Size</span>${T.guide.length ? `<button class="linkbtn" data-guide="${d.type}">Size guide</button>` : ''}</div><div class="sizes" id="sizes">${sizes}</div></div>
+       <button class="btn solid add" id="addBtn" data-id="${d.id}" data-v="${v.pid}">Add to bag · ${fmt(price)}</button><p class="msg" id="msg" aria-live="polite"></p>`;
+  return `<div class="wrap pdp">
+    <div class="gallery">${gallery}</div>
+    <div class="info">
+      <div class="crumbs"><a href="#home">Home</a> / <a href="#shop" data-cat="${d.cat}">${CATS[d.cat]}</a> / ${esc(v.code)}</div>
+      <div><span class="badges" style="display:flex;gap:6px;margin-bottom:10px">${badges(d, v)}</span><h1>${esc(d.name)}</h1>
+        <div class="price" style="margin-top:8px">${fmt(price)} <span style="font-size:13px;color:var(--muted)">${C().incl ? 'incl. ' + C().vatName : '+ ' + C().vatName + ' at checkout'}</span></div>
+        ${d.drop === 1 ? `<div style="font-size:13px;color:var(--muted);margin-top:4px">${bnpl(price)}</div>` : ''}</div>
+      <div><div class="pix" style="margin-bottom:8px">Colour · ${esc(v.colour)} <span style="color:var(--muted)">(${esc(COLL[v.collection].title)})</span></div>
+        <div class="pswatch">${d.variants.map((x, i) => `<a href="#p-${d.id}~${x.pid}" aria-current="${i === vi}"><img src="${src(x.imgs[2].k)}" alt=""><span>${esc(x.colour)}</span></a>`).join('')}</div></div>
+      <p style="margin:0;color:var(--muted)">${esc(d.blurb)}</p>
+      ${buy}
+      ${deliveryBox()}
+      <div>
+        <details open><summary>Size & fit</summary><p>${esc(T.fit)}${model ? ' ' + esc(model.model) + '.' : ''}</p>${T.guide.length ? `<p><button class="linkbtn" data-guide="${d.type}">See measurements in cm</button></p>` : ''}</details>
+        <details open><summary>Fabric & details</summary><dl class="facts">
+          ${T.fabric.map((f, i) => `<dt>${['Fabric', 'Composition', 'Details'][i]}</dt><dd>${esc(f)}</dd>`).join('')}
+          <dt>Front</dt><dd>${esc(d.logo)}, ${d.tech}${d.type === 'cap' ? ', 5 cm wide' : ', about 6 cm, left chest'}</dd>
+          <dt>Back</dt><dd>${d.type === 'cap' ? 'Plain, adjustable buckle strap' : d.back ? '"You Can\'t Hold It" through the FAGA mark, screen printed, about 32 cm' : 'Plain'}</dd>
+          <dt>Blank</dt><dd>${esc(T.blank)}</dd><dt>Made</dt><dd>Printed to order for you</dd></dl></details>
+        <details><summary>Care</summary><p>${d.type === 'cap' ? 'Spot clean only. Reshape while damp, air dry.' : 'Wash cold inside out with similar colours. Hang dry. Do not iron the print.'}</p></details>
+      </div>
+    </div>
+  </div>
+  ${look.length ? `<section class="wrap" style="padding-top:0"><div class="head"><div><span class="pix eyebrow">${esc(COLL[v.collection].title)}</span><h2>Complete the look</h2></div></div><div class="grid">${look.map(([x, i]) => card(x, i)).join('')}</div></section>` : ''}`;
+}
+
+function lookbook(){
+  const blocks = Object.entries(COLL).map(([k, c]) => {
+    const shots = [];
+    DS.filter(d => d.drop === 1).forEach(d => d.variants.forEach(v => { if (v.collection === k) shots.push([d, v, v.imgs[1]], [d, v, v.imgs[0]]); }));
+    const pick = shots.filter((s, i) => i % 2 === 0).concat(shots.filter((s, i) => i % 2 === 1)).slice(0, 9);
+    const pat = ['w', '', 'h', 'h', '', '', 'w', '', ''];
+    return `<section class="wrap"><div class="head"><div><span class="pix eyebrow">FW26</span><h2>${esc(c.title)}</h2></div><p style="max-width:44ch;color:var(--muted);margin:0">${esc(c.mood)}</p></div>
+      <div class="lb">${pick.map(([d, v, im], i) => `<figure class="${pat[i] || ''}"><img src="${src(im.k)}" alt="${esc(d.name)} in ${esc(v.colour)}, worn" loading="lazy"><figcaption><span>${esc(d.name)} · ${esc(v.colour)}</span><a href="#p-${d.id}~${v.pid}">Shop</a></figcaption></figure>`).join('')}</div></section>`;
+  }).join('');
+  return `<div class="hero3"><div class="wrap" style="padding-block:clamp(28px,4vw,56px)"><span class="pix eyebrow">Lookbook · Fall/Winter 2026</span><h1 style="font-family:var(--display);font-stretch:125%;font-weight:900;font-size:clamp(44px,7vw,112px);line-height:.86;margin:10px 0 0;text-transform:uppercase">Worn<br>outside.</h1></div></div>${blocks}`;
+}
+
+function shipping(){
+  const rows = Object.entries(CO).map(([k, c]) => `<tr><td>${esc(c.name)}</td><td>${c.cur}</td><td>${esc(c.hub)}</td><td>${c.eta}</td><td>${fmt(c.ship, c.cur)} · free over ${fmt(c.free, c.cur)}</td><td>${c.incl ? `${Math.round(c.vat * 100)}% ${c.vatName} included` : `${c.vatName} at checkout`}</td></tr>`).join('');
+  return `<section class="wrap prose"><span class="pix eyebrow">Help</span><h2>Shipping, duties & taxes</h2>
+    <p>Every order is printed or embroidered to order and ships from the hub closest to you. Prices shown in VAT and GST countries already include tax. Where customs duty can apply, it is estimated in your bag before you pay, so nothing is charged on delivery.</p>
+    <div style="overflow-x:auto"><table class="t"><thead><tr><th>Country</th><th>Currency</th><th>Ships from</th><th>Delivery</th><th>Shipping</th><th>Tax</th></tr></thead><tbody>${rows}</tbody></table></div>
+    <h3 style="font-family:var(--display);text-transform:uppercase;margin-top:32px">Customs duty by country</h3>
+    ${Object.values(CO).map(c => `<p><b style="color:var(--ink)">${esc(c.name)}.</b> ${esc(c.dutyNote)}</p>`).join('')}
+    <h3 style="font-family:var(--display);text-transform:uppercase;margin-top:32px">Returns</h3>
+    <p>Free returns within 14 days of delivery for unworn items with tags. Refunds go back to the original payment method within 5 business days of the return arriving.</p>
+    <p class="pix" style="margin-top:24px">Tax and duty amounts are estimates based on rules in force in October 2026.</p></section>`;
+}
+
+/* ---------- modals ---------- */
+function openModal(html, cls = ''){ $('#modalRoot').innerHTML = `<div class="modal ${cls}" role="dialog" aria-modal="true"><div class="bg" data-mclose></div><div class="box"><button class="x" data-mclose aria-label="Close">Close</button>${html}</div></div>`; }
+const closeModal = () => $('#modalRoot').innerHTML = '';
+function guide(type){
+  const T = TY[type];
+  openModal(`<h3>Size guide · ${esc(T.label)}</h3><p style="margin:0;color:var(--muted);font-size:14px">${esc(T.fit)} Garment measured flat, in centimetres. Allow ±2 cm.</p>
+    <div class="tabs">${['hd','hw','gdc','prm','gdl','tee'].map(k => `<button class="chip" data-guide="${k}" aria-pressed="${k === type}">${TY[k].label}</button>`).join('')}</div>
+    <table class="t"><thead><tr><th>Size</th><th>Chest width</th><th>Body length</th></tr></thead><tbody>${T.guide.map(([s, c, l]) => `<tr><td>${s}</td><td>${c.toFixed(1)} cm</td><td>${l.toFixed(1)} cm</td></tr>`).join('')}</tbody></table>
+    <p style="margin:0;font-size:13px;color:var(--muted)"><b style="color:var(--ink)">How to measure:</b> lay your favourite top flat. Chest width is armpit to armpit, body length is the highest point of the shoulder to the hem. Compare with the table.</p>`);
+}
+function welcome(){
+  openModal(`<span class="pix eyebrow">First order</span><div class="big">10% OFF</div><p style="margin:0;color:var(--muted)">Join the FAGA list for drop alerts, early access to Drop 02 and 10% off your first order.</p>${signupForm('welcome', 'Get 10%')}`, 'welcome');
+}
+
+/* ---------- bag ---------- */
+function totals(){
+  const c = C();
+  const sub = bag.reduce((s, l) => s + localPrice(byId(l.d).price) * l.q, 0);
+  const disc = code === 'WELCOME10' ? Math.round(sub * 0.10 * 100) / 100 : 0;
+  const net = sub - disc;
+  const ship = !bag.length ? 0 : net >= c.free ? 0 : c.ship;
+  const goodsNet = c.incl ? net / (1 + c.vat) : net;                 // value without VAT, local currency
+  let duty = 0;
+  if (c.duty === 'il' && toUSD(goodsNet) > 500) duty = goodsNet * 0.12;
+  if (c.duty === 'uk' && goodsNet > 135) duty = goodsNet * 0.12;
+  if (c.duty === 'au' && goodsNet > 1000) duty = goodsNet * 0.05;
+  duty = Math.round(duty * 100) / 100;
+  const total = net + ship + duty;
+  const vatIn = c.incl ? Math.round((net + ship) * c.vat / (1 + c.vat) * 100) / 100 : 0;
+  return { sub, disc, ship, duty, total, vatIn };
+}
+function bagHtml(){
+  const c = C(); const t = totals(); const n = bag.reduce((s, l) => s + l.q, 0);
+  const left = Math.max(0, c.free - (t.sub - t.disc));
+  return `<div class="scrim" data-close></div><aside class="drawer" role="dialog" aria-modal="true" aria-label="Bag">
+    <div class="top"><b>Bag (${n})</b><button data-close aria-label="Close bag">Close</button></div>
+    ${bag.length ? `<div style="padding:12px 20px 0;display:grid;gap:6px"><small>${left ? `${fmt(left)} away from free shipping to ${esc(c.name)}` : `Free shipping to ${esc(c.name)} unlocked`}</small><div class="freebar"><i style="width:${Math.min(100, (t.sub - t.disc) / c.free * 100)}%"></i></div></div>` : ''}
+    <div class="lines">${bag.length ? bag.map((l, i) => { const d = byId(l.d), v = vOf(d, l.v); return `<div class="line"><img src="${src(v.imgs[2].k)}" alt=""><div><b>${esc(d.name)}</b><small>${esc(v.colour)} · ${l.s}</small>
+      <div class="qty"><button data-dec="${i}" aria-label="Decrease">−</button><span>${l.q}</span><button data-inc="${i}" aria-label="Increase">+</button></div></div>
+      <div style="text-align:right"><div style="font-variant-numeric:tabular-nums">${fmt(localPrice(d.price) * l.q)}</div><button class="rm" data-rm="${i}">Remove</button></div></div>`; }).join('') : '<p class="empty">Your bag is empty.</p>'}</div>
+    <div class="bottom">
+      <form class="codeform" id="codeform"><label for="codein" style="position:absolute;left:-9999px">Discount code</label><input id="codein" placeholder="Discount code" value="${esc(code)}"><button type="submit">Apply</button></form>
+      <div class="sumrow"><span>Subtotal</span><span>${fmt(t.sub)}</span></div>
+      ${t.disc ? `<div class="sumrow"><span>WELCOME10 (−10%)</span><span>−${fmt(t.disc)}</span></div>` : ''}
+      <div class="sumrow"><span>Shipping to ${esc(c.name)}</span><span>${bag.length ? (t.ship ? fmt(t.ship) : 'Free') : '—'}</span></div>
+      <div class="sumrow"><span>Import duties</span><span>${t.duty ? fmt(t.duty) : fmt(0)}</span></div>
+      ${c.incl ? `<div class="sumrow muted"><span>Includes ${esc(c.vatName)} ${Math.round(c.vat * 100)}%</span><span>${fmt(t.vatIn)}</span></div>` : `<div class="sumrow muted"><span>${esc(c.vatName)}</span><span>At checkout</span></div>`}
+      <div class="sub"><span>Total</span><span>${fmt(t.total)}</span></div>
+      <small style="color:var(--muted)">${c.incl ? "Duties and taxes are prepaid. Nothing extra to pay on delivery." : "No import duties. " + esc(c.vatName) + " is added at checkout based on your address."}</small>
+      <button class="btn solid" id="checkout" ${bag.length ? '' : 'disabled'}>Checkout</button></div></aside>`;
+}
+const openBag = () => $('#bagRoot').innerHTML = bagHtml();
+const closeBag = () => $('#bagRoot').innerHTML = '';
+const updateCount = () => $('#count').textContent = bag.reduce((s, l) => s + l.q, 0);
+function toast(t){ const el = $('#toast'); el.textContent = t; el.hidden = false; clearTimeout(toast.t); toast.t = setTimeout(() => el.hidden = true, 2400); }
+function addToBag(did, pid, s){
+  const ex = bag.find(l => l.d === did && l.v === pid && l.s === s); ex ? ex.q++ : bag.push({ d:did, v:pid, s, q:1 });
+  saveBag(); updateCount(); openBag();
+}
+
+/* ---------- chrome ---------- */
+function chrome(){
+  const c = C();
+  $('#country').innerHTML = Object.entries(CO).map(([k, x]) => `<option value="${k}" ${k === country ? 'selected' : ''}>${x.name} · ${x.cur}</option>`).join('');
+  $('#announce').textContent = `Drop 01 preview · orders open soon · Free shipping to ${c.name} over ${fmt(c.free)} · ${c.incl ? c.vatName + ' & duties included' : 'No import duties'}`;
+  $('#legalcur').textContent = `Prices in ${c.cur} · ${c.name}`;
+}
+
+/* ---------- router ---------- */
+function render(){
+  const h = decodeURIComponent(location.hash.replace('#', ''));
+  const view = $('#view');
+  if (h.startsWith('p-')){
+    const [did, pid] = h.slice(2).split('~'); const d = byId(did);
+    if (d){ const v = vOf(d, pid); view.innerHTML = pdp(d, v); document.title = `${d.name} · ${v.colour} — FAGA`; window.scrollTo(0, 0); tick(); return; }
+  }
+  if (h === 'lookbook'){ view.innerHTML = lookbook(); document.title = 'Lookbook — FAGA'; window.scrollTo(0, 0); return; }
+  if (h === 'shipping'){ view.innerHTML = shipping(); document.title = 'Shipping, duties & taxes — FAGA'; window.scrollTo(0, 0); return; }
+  if (!view.querySelector('.hero3') || view.dataset.page !== 'home'){ view.innerHTML = home(); view.dataset.page = 'home'; }
+  document.title = 'FAGA Shop'; tick();
+  if (['shop', 'drop02', 'collections'].includes(h)){ const t = document.getElementById(h); if (t) t.scrollIntoView(); } else if (!h || h === 'home') window.scrollTo(0, 0);
+}
+function setGrid(){ const g = document.getElementById('grid'); if (g) g.innerHTML = gridHtml(); }
+function rerender(){ chrome(); const y = scrollY; const page = $('#view').dataset.page; $('#view').dataset.page = ''; render(); if (!location.hash.startsWith('#p-')) scrollTo(0, y); if ($('#bagRoot').innerHTML) openBag(); }
+
+/* ---------- events ---------- */
+document.addEventListener('click', e => {
+  const t = e.target;
+  const cat = t.closest('[data-cat]'); if (cat){ F.cat = cat.dataset.cat; F.coll = 'all'; setGrid(); $('#mnav').classList.remove('open'); }
+  const coll = t.closest('[data-coll]'); if (coll){ F.coll = coll.dataset.coll; if (coll.classList.contains('coll')) F.cat = 'all'; setGrid(); }
+  const f = t.closest('[data-filter]'); if (f){ F.cat = f.dataset.filter; setGrid(); }
+  const sz = t.closest('[data-size]'); if (sz){ const s = sz.dataset.size; F.sizes.has(s) ? F.sizes.delete(s) : F.sizes.add(s); setGrid(); }
+  const sw = t.closest('[data-sw]'); if (sw){ const [id, i] = sw.dataset.sw.split('|'); const el = sw.closest('.card'); el.outerHTML = card(byId(id), +i); }
+  const qa = t.closest('[data-qa]'); if (qa && !qa.disabled){ const [d, v, s] = qa.dataset.qa.split('|'); addToBag(d, v, s); }
+  const g = t.closest('[data-guide]'); if (g){ e.preventDefault(); guide(g.dataset.guide); }
+  if (t.closest('[data-mclose]')) closeModal();
+  const sp = t.closest('[data-size-pick]'); if (sp && !sp.disabled){ document.querySelectorAll('[data-size-pick]').forEach(b => b.setAttribute('aria-pressed', String(b === sp))); const m = $('#msg'); if (m) m.textContent = ''; }
+  const add = t.closest('#addBtn'); if (add){ const sel = document.querySelector('[data-size-pick][aria-pressed="true"]'); if (!sel){ $('#msg').textContent = 'Choose a size.'; return; } addToBag(add.dataset.id, add.dataset.v, sel.dataset.sizePick); }
+  if (t.closest('#bagBtn')) openBag();
+  if (t.closest('[data-close]')) closeBag();
+  const inc = t.closest('[data-inc]'), dec = t.closest('[data-dec]'), rm = t.closest('[data-rm]');
+  if (inc) bag[+inc.dataset.inc].q++;
+  if (dec){ const l = bag[+dec.dataset.dec]; l.q--; if (!l.q) bag.splice(+dec.dataset.dec, 1); }
+  if (rm) bag.splice(+rm.dataset.rm, 1);
+  if (inc || dec || rm){ saveBag(); updateCount(); openBag(); }
+  if (t.closest('#checkout')){ closeBag(); openModal(`<span class="pix eyebrow">Orders open soon</span><h3>Almost there</h3><p style="margin:0;color:var(--muted)">Drop 01 is in preview while production is finalised. Leave your email and we'll tell you the moment orders open. Your bag is saved on this device, and the 10% first-order code comes with the email.</p>${signupForm('checkout', 'Notify me')}`); }
+  if (t.closest('#menuBtn')){ const m = $('#mnav'); m.classList.toggle('open'); $('#menuBtn').setAttribute('aria-expanded', String(m.classList.contains('open'))); }
+});
+document.addEventListener('change', e => {
+  if (e.target.id === 'sort'){ F.sort = e.target.value; setGrid(); }
+  if (e.target.id === 'country'){ country = e.target.value; ls.set('faga_country', country); rerender(); }
+});
+document.addEventListener('submit', e => {
+  const f = e.target;
+  if (f.id === 'codeform'){ e.preventDefault(); const v = $('#codein').value.trim().toUpperCase(); if (v && v !== 'WELCOME10'){ toast('That code is not valid.'); return; } code = v; ls.set('faga_code', code); openBag(); return; }
+  if (f.dataset.signup){ e.preventDefault(); const id = f.dataset.signup; const msg = document.querySelector(`[data-msg="${id}"]`);
+    const em = f.querySelector('input[type=email]').value.trim();
+    try { fetch(SIGNUP_URL, { method:'POST', mode:'no-cors', body:new URLSearchParams({ email:em, source:id, country }) }); } catch(err){}
+    ls.set('faga_welcome', 'done'); code = 'WELCOME10'; ls.set('faga_code', code);
+    if (msg) msg.innerHTML = id.startsWith('restock') ? "You're on the list for this restock." : id === 'checkout' ? `You're on the list. Code <b>WELCOME10</b> is saved to your bag.` : `You're in. Code <b>WELCOME10</b> is applied to your bag.`; f.reset();
+    if (id === 'welcome') setTimeout(closeModal, 2200);
+  }
+});
+document.addEventListener('keydown', e => { if (e.key === 'Escape'){ closeBag(); closeModal(); } });
+window.addEventListener('hashchange', () => { closeBag(); closeModal(); render(); });
+chrome(); updateCount(); render();
+if (!ls.get('faga_welcome', '')) setTimeout(() => { if (!$('#modalRoot').innerHTML && !ls.get('faga_welcome', '')){ welcome(); ls.set('faga_welcome', 'shown'); } }, 6000);
+</script>
