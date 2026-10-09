@@ -295,6 +295,8 @@ table.t th{font-weight:600}
 .soon a{display:grid;gap:6px;text-decoration:none;color:inherit}
 .soon img{width:100%;aspect-ratio:4/5;object-fit:cover;background:var(--paper)}
 .soon span{display:grid;font-size:13px;line-height:1.3}.soon small{color:var(--muted)}
+.shipform{display:grid;gap:10px}.shipform .two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.fl{display:grid;gap:4px;font-size:13px}.fl span{color:var(--muted)}.fl input{border:1px solid var(--line);background:transparent;color:inherit;padding:10px;font:inherit}
 </style>
 
 <div class="announce pix" id="announce"></div>
@@ -353,7 +355,7 @@ const SIZES = ['XS','S','M','L','XL','2XL','3XL','One size'];
 const DROP2 = new Date(DATA.drop2);
 const SIGNUP_URL = 'https://script.google.com/macros/s/AKfycbywgEqI0Zx70K1KD2pMTz_wpy9B_UDhc6a_CK0c8z7N4UYJGD7J-k7Hg04QKQ5Sqh8-cQ/exec';
 const API = (body) => fetch(SIGNUP_URL, { method:'POST', body:JSON.stringify(body) }).then(r => r.json());
-let LIVE = false;                                   // true once the Stripe key is set on the server
+let LIVE = false;                                   // true once Payoneer is configured on the server
 const released = d => d.drop === 1 || (d.drop === 2 && Date.now() >= DROP2);
 const buyable = (d, v) => released(d) && v.status === 'live';
 const $ = s => document.querySelector(s);
@@ -484,7 +486,7 @@ function deliveryBox(){
     <div><b>Delivery to ${esc(c.name)}:</b> ${c.eta} · ${fmt(c.ship)}, free over ${fmt(c.free)}</div>
     <div class="muted">Ships from ${esc(c.hub)}. ${esc(c.dutyNote)}</div>
     <div class="muted">Free returns within 14 days of delivery, unworn with tags. <a class="linkbtn" href="#shipping">Shipping, duties & taxes</a></div>
-    <div class="pay">${['Visa','Mastercard','Amex','Apple Pay','Google Pay'].map(p => `<span>${p}</span>`).join('')}<span>Secure checkout by Stripe</span></div>
+    <div class="pay">${['Visa','Mastercard','Amex','Apple Pay','Google Pay'].map(p => `<span>${p}</span>`).join('')}<span>Secure checkout by Payoneer</span></div>
   </div>`;
 }
 
@@ -609,7 +611,7 @@ function bagHtml(){
       ${c.incl ? `<div class="sumrow muted"><span>Includes ${esc(c.vatName)} ${Math.round(c.vat * 100)}%</span><span>${fmt(t.vatIn)}</span></div>` : `<div class="sumrow muted"><span>${esc(c.vatName)}</span><span>Not charged</span></div>`}
       <div class="sub"><span>Total</span><span>${fmt(t.total)}</span></div>
       <small style="color:var(--muted)">${c.incl ? "Duties and taxes are prepaid. Nothing extra to pay on delivery." : "No import duties and no " + esc(c.vatName) + " added."}</small>
-      <button class="btn solid" id="checkout" ${bag.length ? '' : 'disabled'}>${LIVE ? 'Checkout · ' + fmt(t.total) : 'Checkout'}</button><small class="pix" style="color:var(--muted);text-align:center">${LIVE ? 'Secure payment by Stripe' : ''}</small></div></aside>`;
+      <button class="btn solid" id="checkout" ${bag.length ? '' : 'disabled'}>${LIVE ? 'Checkout · ' + fmt(t.total) : 'Checkout'}</button><small class="pix" style="color:var(--muted);text-align:center">${LIVE ? 'Secure payment by Payoneer' : ''}</small></div></aside>`;
 }
 const openBag = () => $('#bagRoot').innerHTML = bagHtml();
 const closeBag = () => $('#bagRoot').innerHTML = '';
@@ -621,7 +623,7 @@ function addToBag(did, pid, s){
 }
 
 
-/* ---------- checkout (Stripe) ---------- */
+/* ---------- checkout (Payoneer) ---------- */
 function notLiveModal(){
   openModal(`<span class="pix eyebrow">Orders open soon</span><h3>Almost there</h3><p style="margin:0;color:var(--muted)">Checkout opens in the next few days. Leave your email and we'll tell you the moment it does. Your bag is saved on this device, and the 10% first-order code comes with the email.</p>${signupForm('checkout', 'Notify me')}`);
 }
@@ -629,49 +631,70 @@ function goTo(url){
   try { if (window.top !== window) { window.top.location.href = url; return; } } catch(e){}
   try { location.href = url; return; } catch(e){}
 }
+function shipForm(){
+  const c = C(), f = ls.get('faga_ship', {}), t = totals();
+  const needState = ['US','CA','AU'].includes(country);
+  const inp = (id, label, ac, req = true, type = 'text') => `<label class="fl"><span>${label}</span><input id="sf-${id}" type="${type}" autocomplete="${ac}" value="${esc(f[id] || '')}" ${req ? 'required' : ''}></label>`;
+  openModal(`<span class="pix eyebrow">Checkout · ${esc(c.name)}</span><h3>Shipping details</h3>
+    <form id="shipform" class="shipform">
+      ${inp('name', 'Full name', 'name')}${inp('email', 'Email', 'email', true, 'email')}${inp('phone', 'Phone', 'tel', false, 'tel')}
+      ${inp('address1', 'Address', 'address-line1')}${inp('address2', 'Apartment, floor (optional)', 'address-line2', false)}
+      <div class="two">${inp('city', 'City', 'address-level2')}${inp('zip', 'Postcode', 'postal-code')}</div>
+      ${needState ? inp('state', country === 'US' ? 'State (e.g. CA)' : country === 'CA' ? 'Province (e.g. ON)' : 'State (e.g. NSW)', 'address-level1') : ''}
+      <p class="muted" style="margin:0;font-size:13px">Shipping to ${esc(c.name)}. To ship elsewhere, change the country at the top of the shop.</p>
+      <button class="btn solid" type="submit" id="payBtn">Continue to payment · ${fmt(t.total)}</button>
+      <small class="pix" style="color:var(--muted);text-align:center">Card payment on Payoneer's secure page</small>
+    </form>`);
+}
 async function checkout(btn){
   if (!bag.length) return;
   if (!LIVE){ closeBag(); notLiveModal(); return; }
-  btn.disabled = true; btn.textContent = 'Opening secure checkout…';
+  closeBag(); shipForm();
+}
+async function pay(form){
+  const get = id => (form.querySelector('#sf-' + id) || { value:'' }).value.trim();
+  const customer = { name:get('name'), email:get('email'), phone:get('phone'), address1:get('address1'), address2:get('address2'), city:get('city'), zip:get('zip'), state:get('state') };
+  ls.set('faga_ship', customer);
+  const btn = form.querySelector('#payBtn'); btn.disabled = true; btn.textContent = 'Opening secure payment…';
   let res;
-  try { res = await API({ action:'checkout', country, code, items: bag.map(l => ({ d:l.d, v:l.v, s:l.s, q:l.q })) }); }
+  try { res = await API({ action:'checkout', country, code, customer, items: bag.map(l => ({ d:l.d, v:l.v, s:l.s, q:l.q })) }); }
   catch(e){ res = { error:'network' }; }
   if (res && res.url){
     ls.set('faga_pending', res.id);
     try { goTo(res.url); } catch(e){}
-    // If the browser blocked leaving the frame, offer a direct link.
-    setTimeout(() => { closeBag(); openModal(`<span class="pix eyebrow">Secure checkout</span><h3>Continue to payment</h3><p style="margin:0;color:var(--muted)">Your order total is ${fmt(res.total, res.currency)}. Payment is handled by Stripe.</p><a class="btn solid" href="${esc(res.url)}" target="_top" rel="noopener">Continue to checkout</a>`); }, 2500);
+    setTimeout(() => openModal(`<span class="pix eyebrow">Secure checkout</span><h3>Continue to payment</h3><p style="margin:0;color:var(--muted)">Your order total is ${fmt(res.total, res.currency)}. Payment is handled by Payoneer.</p><a class="btn solid" href="${esc(res.url)}" target="_top" rel="noopener">Continue to payment</a>`), 2500);
     return;
   }
-  btn.disabled = false; btn.textContent = 'Checkout · ' + fmt(totals().total);
-  if (res && res.error === 'not_live'){ LIVE = false; closeBag(); notLiveModal(); return; }
+  btn.disabled = false; btn.textContent = 'Continue to payment · ' + fmt(totals().total);
+  if (res && res.error === 'not_live'){ LIVE = false; notLiveModal(); return; }
   toast(res && res.message ? res.message : 'Checkout could not start. Please try again in a minute.');
 }
 function thanks(){
   return `<section class="wrap prose" style="min-height:60vh"><span class="pix eyebrow">Order</span><h2 id="tyTitle">Confirming your payment…</h2>
-    <p id="tyText" style="color:var(--muted)">One moment while we check with Stripe.</p>
+    <p id="tyText" style="color:var(--muted)">One moment while we confirm your payment.</p>
     <p><a class="btn solid" href="https://www.fagamedia.com/shop" target="_top">Back to the shop</a></p></section>`;
 }
-async function confirmOrder(sid){
-  if (!sid) sid = ls.get('faga_pending', '');
+async function confirmOrder(){
+  const q = new URLSearchParams(location.search);
+  const sid = q.get('tx') || ls.get('faga_pending', ''), longId = q.get('longId') || '';
   if (!sid){ $('#tyTitle').textContent = 'Thank you'; $('#tyText').textContent = 'Your receipt is on its way to your email.'; return; }
   let r = null;
-  for (let i = 0; i < 4 && !(r && r.paid); i++){ try { r = await API({ action:'status', sid }); } catch(e){} if (!(r && r.paid)) await new Promise(ok => setTimeout(ok, 2500)); }
+  for (let i = 0; i < 6 && !(r && r.paid); i++){ try { r = await API({ action:'status', tx:sid, longId }); } catch(e){} if (!(r && r.paid)) await new Promise(ok => setTimeout(ok, 2500)); }
   if (r && r.paid){
     bag = []; saveBag(); updateCount(); ls.set('faga_pending', '');
     $('#tyTitle').textContent = 'Thank you. Order ' + r.ref + ' is confirmed.';
-    $('#tyText').innerHTML = `We've sent the receipt to <b>${esc(r.email)}</b>. Your pieces are now ${'printed and embroidered'} to order; you'll get tracking by email when they ship.`;
+    $('#tyText').innerHTML = `A confirmation is on its way to <b>${esc(r.email)}</b>. Your pieces are now being printed and embroidered for you; you'll get tracking by email when they ship.`;
   } else {
     $('#tyTitle').textContent = 'Payment not completed';
-    $('#tyText').textContent = 'We could not confirm a payment for this checkout. Your bag is still saved. If you were charged, reply to your Stripe receipt and we will sort it out.';
+    $('#tyText').textContent = q.get('interactionCode') && q.get('interactionCode') !== 'PROCEED' ? 'The payment was not completed. Your bag is still saved, so you can try again.' : 'We are still waiting for the payment confirmation. If you were charged you will get an email from us shortly; your order is safe.';
   }
 }
 async function boot(){
   try { const c = await API({ action:'config' }); LIVE = !!(c && c.live); } catch(e){ LIVE = false; }
   chrome(); if ($('#bagRoot').innerHTML) openBag();
   const sid = ls.get('faga_pending', '');
-  if (LIVE && sid && !location.hash.startsWith('#thanks')){
-    try { const r = await API({ action:'status', sid }); if (r && r.paid){ bag = []; saveBag(); updateCount(); ls.set('faga_pending', ''); toast('Order ' + r.ref + ' confirmed. Thank you!'); } else if (r && r.status === 'expired') ls.set('faga_pending', ''); } catch(e){}
+  if (LIVE && sid && !new URLSearchParams(location.search).get('tx')){
+    try { const r = await API({ action:'status', tx:sid }); if (r && r.paid){ bag = []; saveBag(); updateCount(); ls.set('faga_pending', ''); toast('Order ' + r.ref + ' confirmed. Thank you!'); } } catch(e){}
   }
 }
 
@@ -691,7 +714,7 @@ function render(){
     const [did, pid] = h.slice(2).split('~'); const d = byId(did);
     if (d){ const v = vOf(d, pid); view.innerHTML = pdp(d, v); document.title = `${d.name} · ${v.colour} — FAGA`; window.scrollTo(0, 0); tick(); return; }
   }
-  if (h.startsWith('thanks')){ view.innerHTML = thanks(); view.dataset.page = 'thanks'; document.title = 'Thank you — FAGA'; window.scrollTo(0, 0); confirmOrder((h.split('sid=')[1] || '').trim()); return; }
+  if (new URLSearchParams(location.search).get('tx') && !h){ view.innerHTML = thanks(); view.dataset.page = 'thanks'; document.title = 'Thank you — FAGA'; window.scrollTo(0, 0); confirmOrder(); return; }
   if (h === 'lookbook'){ view.innerHTML = lookbook(); document.title = 'Lookbook — FAGA'; window.scrollTo(0, 0); return; }
   if (h === 'shipping'){ view.innerHTML = shipping(); document.title = 'Shipping, duties & taxes — FAGA'; window.scrollTo(0, 0); return; }
   if (!view.querySelector('.hero3') || view.dataset.page !== 'home'){ view.innerHTML = home(); view.dataset.page = 'home'; }
@@ -730,6 +753,7 @@ document.addEventListener('change', e => {
 });
 document.addEventListener('submit', e => {
   const f = e.target;
+  if (f.id === 'shipform'){ e.preventDefault(); pay(f); return; }
   if (f.id === 'codeform'){ e.preventDefault(); const v = $('#codein').value.trim().toUpperCase(); if (v && v !== 'WELCOME10'){ toast('That code is not valid.'); return; } code = v; ls.set('faga_code', code); openBag(); return; }
   if (f.dataset.signup){ e.preventDefault(); const id = f.dataset.signup; const msg = document.querySelector(`[data-msg="${id}"]`);
     const em = f.querySelector('input[type=email]').value.trim();
